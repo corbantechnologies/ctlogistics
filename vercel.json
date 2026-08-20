@@ -1,0 +1,5 @@
+﻿{
+  "buildCommand": "npx drizzle-kit migrate && next build",
+  "framework": "nextjs",
+  "devCommand": "next dev"
+}

@@ -1,26 +1,41 @@
 {
-  "name": "ctlogistics",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "next": "16.3.1",
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.3.1",
-    "tailwindcss": "^4",
-    "typescript": "^5"
-  }
+    "name": "ctlogistics",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev --turbopack",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "db:generate": "drizzle-kit generate",
+        "db:migrate": "drizzle-kit migrate",
+        "db:seed": "tsx db/seed.ts",
+        "db:studio": "drizzle-kit studio",
+        "db:seed-admin": "tsx db/seed-admin.ts"
+    },
+    "dependencies": {
+        "next": "16.3.1",
+        "react": "19.2.8",
+        "react-dom": "19.2.8",
+        "drizzle-orm": "^0.45.2",
+        "postgres": "^3.4.7",
+        "better-auth": "^1.2.7",
+        "cloudinary": "^2.7.0",
+        "nanoid": "^5.1.5",
+        "zod": "^3.24.2",
+        "dotenv": "^16.4.7"
+    },
+    "devDependencies": {
+        "@tailwindcss/postcss": "^4",
+        "@types/node": "^20",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "eslint": "^9",
+        "eslint-config-next": "16.3.1",
+        "tailwindcss": "^4",
+        "typescript": "^5",
+        "drizzle-kit": "^0.31.1",
+        "tsx": "^4.19.3",
+        "@types/pg": "^8.11.11"
+    }
 }
