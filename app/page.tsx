@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -82,7 +82,7 @@ export default function LandingPage() {
 
       {/* ── NAVBAR ───────────────────────────────────────── */}
       <header className="relative z-20 flex items-center justify-between px-6 md:px-12 py-5 border-b border-white/5">
-        <div className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3">
           <div className="h-9 w-9 rounded-xl bg-amber-400 flex items-center justify-center shadow-lg shadow-amber-400/30">
             <span className="text-black font-black text-sm">CT</span>
           </div>
@@ -90,7 +90,7 @@ export default function LandingPage() {
             <span className="font-bold text-white text-lg tracking-tight">CT Logistics</span>
             <span className="ml-2 text-xs text-white/30 hidden sm:inline">Mombasa, Kenya</span>
           </div>
-        </div>
+        </Link>
         <nav className="hidden md:flex items-center gap-8 text-sm text-white/50">
           <a href="#services" className="hover:text-white transition-colors">Services</a>
           <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
@@ -350,7 +350,7 @@ export default function LandingPage() {
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
           </nav>
           <p className="text-xs text-white/20">
-            © {new Date().getFullYear()} CT Logistics. All rights reserved.
+            © {new Date().getFullYear()} Powered by Corban Technologies LTD. All rights reserved.
           </p>
         </div>
       </footer>

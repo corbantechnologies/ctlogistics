@@ -21,7 +21,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg-base);
   color: var(--text-primary);
-  font-family: var(--font-geist-sans, 'Inter', system-ui, sans-serif);
+  font-family: var(--font-google-sans, 'Inter', system-ui, sans-serif);
   min-height: 100dvh;
   -webkit-font-smoothing: antialiased;
 }

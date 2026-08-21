@@ -1,17 +1,18 @@
-﻿"use client";
+"use client";
 
 import { useState, useTransition } from "react";
-import { ServiceSelector } from "./_components/ServiceSelector";
-import { RentalStep } from "./_components/RentalStep";
-import { TransferStep } from "./_components/TransferStep";
-import { SafariStep } from "./_components/SafariStep";
-import { QuoteCard } from "./_components/QuoteCard";
-import { ClientDetailsStep } from "./_components/ClientDetailsStep";
-import type { BookingType, QuoteResult, Route } from "./_components/types";
-import type { RentalData } from "./_components/RentalStep";
-import type { TransferData } from "./_components/TransferStep";
-import type { SafariData } from "./_components/SafariStep";
-import type { ClientData } from "./_components/ClientDetailsStep";
+import Link from "next/link";
+import { ServiceSelector } from "../_components/ServiceSelector";
+import { RentalStep } from "../_components/RentalStep";
+import { TransferStep } from "../_components/TransferStep";
+import { SafariStep } from "../_components/SafariStep";
+import { QuoteCard } from "../_components/QuoteCard";
+import { ClientDetailsStep } from "../_components/ClientDetailsStep";
+import type { BookingType, QuoteResult, Route } from "../_components/types";
+import type { RentalData } from "../_components/RentalStep";
+import type { TransferData } from "../_components/TransferStep";
+import type { SafariData } from "../_components/SafariStep";
+import type { ClientData } from "../_components/ClientDetailsStep";
 import {
   createRentalBooking,
   createTransferBooking,
@@ -140,12 +141,12 @@ export default function BookingPage() {
       <div className="relative z-10 flex min-h-dvh flex-col">
         {/* Header */}
         <header className="flex items-center justify-between px-6 py-5 border-b border-white/5">
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-lg bg-amber-400 flex items-center justify-center">
               <span className="text-black font-black text-xs">CT</span>
             </div>
             <span className="font-bold text-white tracking-tight">CT Logistics</span>
-          </div>
+          </Link>
           <nav className="hidden sm:flex items-center gap-6 text-sm text-white/50">
             <a href="/admin/login" className="hover:text-white transition-colors">Admin</a>
             <a href="/partner/login" className="hover:text-white transition-colors">Partner</a>
@@ -235,7 +236,7 @@ export default function BookingPage() {
 
         {/* Footer */}
         <footer className="px-6 py-6 text-center text-xs text-white/20 border-t border-white/5">
-          CT Logistics Ltd · Mombasa, Kenya · Liability insulated via tri-party digital agreements
+          CT Logistics · Mombasa, Kenya · Liability insulated via tri-party digital agreements
         </footer>
       </div>
     </div>
