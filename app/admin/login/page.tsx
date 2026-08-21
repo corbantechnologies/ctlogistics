@@ -1,11 +1,14 @@
-﻿"use client";
+"use client";
 
 import { useState, useTransition } from "react";
 import { adminSignIn } from "@/app/actions/auth";
+import toast from "react-hot-toast";
 
 export default function AdminLoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  const [show, setShow] = useState(false);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -13,7 +16,12 @@ export default function AdminLoginPage() {
     const fd = new FormData(e.currentTarget);
     startTransition(async () => {
       const result = await adminSignIn(fd);
-      if (result?.error) setError(result.error);
+      if (result?.error) {
+        toast.error(result.error);
+        setError(result.error);
+      } else {
+        toast.success("Login successful!");
+      }
     });
   }
 
@@ -29,9 +37,9 @@ export default function AdminLoginPage() {
             <span className="text-black font-black text-lg">CT</span>
           </div>
           <h1 className="text-2xl font-bold text-white">Admin Portal</h1>
-          <p className="text-white/40 text-sm mt-1">CT Logistics Dispatch & Management</p>
+          <p className="text-white/40 text-sm mt-1">CT Drive Dispatch & Management</p>
         </div>
-        <form onSubmit={handleSubmit} className="glass-card p-7 space-y-5">
+        <form method="POST" onSubmit={handleSubmit} className="glass-card p-7 space-y-5">
           {error && (
             <div className="rounded-xl bg-red-400/10 border border-red-400/20 px-4 py-3 text-sm text-red-400">{error}</div>
           )}
@@ -40,8 +48,22 @@ export default function AdminLoginPage() {
             <input name="email" type="email" required placeholder="admin@ctlogistics.co.ke" className="input-field" />
           </label>
           <label className="block">
-            <span className="section-label mb-2 block">Password</span>
-            <input name="password" type="password" required placeholder="••••••••" className="input-field" />
+            <div className="flex items-center justify-between mb-2">
+              <span className="section-label">Password</span>
+              <a href="/admin/forgot-password" className="text-xs text-amber-400 hover:underline">
+                Forgot password?
+              </a>
+            </div>
+            <div className="relative">
+              <input name="password" type={show ? "text" : "password"} required placeholder="••••••••" className="input-field pr-16" />
+              <button
+                type="button"
+                onClick={() => setShow(!show)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-white/30 hover:text-white"
+              >
+                {show ? "Hide" : "Show"}
+              </button>
+            </div>
           </label>
           <button type="submit" disabled={isPending} className="btn-primary w-full">
             {isPending ? "Signing in…" : "Sign In →"}

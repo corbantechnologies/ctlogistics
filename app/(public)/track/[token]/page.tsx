@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
   if (!booking) return { title: "Booking Not Found" };
   return {
-    title: `Booking — ${booking.clientName} | CT Logistics`,
+    title: `Booking — ${booking.clientName} | CT Drive`,
     description: `Track your ${booking.bookingType.replace(/_/g, " ").toLowerCase()} booking.`,
   };
 }
@@ -72,7 +72,7 @@ export default async function TrackPage({ params }: Props) {
             <div className="h-7 w-7 rounded-lg bg-amber-400 flex items-center justify-center">
               <span className="text-black font-black text-xs">CT</span>
             </div>
-            <span className="text-sm font-semibold text-white/70">CT Logistics</span>
+            <span className="text-sm font-semibold text-white/70">CT Drive</span>
           </div>
           <span className="text-xs text-white/30">#{booking.id.slice(0, 8).toUpperCase()}</span>
         </div>
@@ -138,7 +138,7 @@ export default async function TrackPage({ params }: Props) {
 
         {/* Footer */}
         <p className="text-center text-xs text-white/20 pb-4">
-          Questions? Call CT Logistics support · Bookmark this page to track your trip
+          Questions? Call CT Drive support · Bookmark this page to track your trip
         </p>
       </div>
     </div>

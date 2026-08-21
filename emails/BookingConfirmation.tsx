@@ -28,7 +28,7 @@ export const BookingConfirmationEmail = ({
 }: BookingConfirmationProps) => (
   <Html>
     <Head />
-    <Preview>Your CT Logistics booking {bookingRef} is confirmed.</Preview>
+    <Preview>Your CT Drive booking {bookingRef} is confirmed.</Preview>
     <Body style={main}>
       <Container style={container}>
         <Heading style={h1}>Booking Received</Heading>
@@ -54,7 +54,7 @@ export const BookingConfirmationEmail = ({
         <Text style={text}>
           If you have any questions, reply to this email or call our 24/7 dispatch center.
         </Text>
-        <Text style={footer}>CT Logistics Ltd, Mombasa, Kenya</Text>
+        <Text style={footer}>Corban Technologies LTD, Mombasa, Kenya</Text>
       </Container>
     </Body>
   </Html>

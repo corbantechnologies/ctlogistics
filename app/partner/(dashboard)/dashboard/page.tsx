@@ -70,7 +70,7 @@ export default async function PartnerDashboard() {
         <div className="glass-card p-10 text-center space-y-3">
           <p className="text-4xl">📭</p>
           <p className="text-white font-semibold">No jobs assigned yet</p>
-          <p className="text-white/40 text-sm">CT Logistics dispatch will assign bookings to your vehicles.</p>
+          <p className="text-white/40 text-sm">CT Drive dispatch will assign bookings to your vehicles.</p>
         </div>
       )}
     </div>

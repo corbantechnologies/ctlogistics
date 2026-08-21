@@ -4,7 +4,7 @@ import { desc } from "drizzle-orm";
 import { BookingKanban } from "./_components/BookingKanban";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Watchtower | CT Logistics Admin" };
+export const metadata: Metadata = { title: "Watchtower | CT Drive Admin" };
 export const dynamic = "force-dynamic";
 
 export default async function DispatchPage() {

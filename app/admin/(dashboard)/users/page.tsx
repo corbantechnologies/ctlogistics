@@ -3,7 +3,7 @@ import { adminUsers, partnerUsers, partners } from "@/db/schema";
 import { UsersPanel } from "./_components/UsersPanel";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "User Management | CT Logistics Admin" };
+export const metadata: Metadata = { title: "User Management | CT Drive Admin" };
 export const dynamic = "force-dynamic";
 
 export default async function UsersPage() {

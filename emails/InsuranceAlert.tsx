@@ -43,7 +43,7 @@ export const InsuranceAlertEmail = ({
         <Text style={text}>
           Please follow up with the partner to ensure they renew their comprehensive or PSV insurance before the expiry date to remain compliant.
         </Text>
-        <Text style={footer}>CT Logistics Admin System</Text>
+        <Text style={footer}>CT Drive Admin System</Text>
       </Container>
     </Body>
   </Html>

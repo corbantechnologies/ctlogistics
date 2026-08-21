@@ -1,7 +1,7 @@
 ﻿import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "CT Logistics — Smart Transport Solutions",
+  title: "CT Drive — Smart Transport Solutions",
   description:
     "Instant quotes and seamless bookings for car rentals, private transfers, and safari tours across Kenya.",
 };

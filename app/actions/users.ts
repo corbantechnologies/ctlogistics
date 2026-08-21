@@ -35,15 +35,20 @@ async function hashPassword(plain: string): Promise<string> {
 
 // ── Create admin or dispatcher account ───────────────────────────────────────
 export async function createAdminUser(formData: FormData) {
-  const session = await getAdminSession();
-  if (!session) return { error: "Unauthorized" };
+  const existingAdmin = await db.query.adminUsers.findFirst();
+  const isFirstSetup = !existingAdmin;
 
-  // Only ADMIN role can create other users
-  const currentUser = await db.query.adminUsers.findFirst({
-    where: eq(adminUsers.id, session.user.id),
-  });
-  if (currentUser?.role !== "ADMIN") {
-    return { error: "Only admins can create user accounts" };
+  if (!isFirstSetup) {
+    const session = await getAdminSession();
+    if (!session) return { error: "Unauthorized" };
+
+    // Only ADMIN role can create other users
+    const currentUser = await db.query.adminUsers.findFirst({
+      where: eq(adminUsers.id, session.user.id),
+    });
+    if (currentUser?.role !== "ADMIN") {
+      return { error: "Only admins can create user accounts" };
+    }
   }
 
   const parsed = createAdminSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -109,7 +114,7 @@ export async function createPartnerUser(formData: FormData) {
 
   await sendEmail({
     to: data.email,
-    subject: "Welcome to CT Logistics Partner Network",
+    subject: "Welcome to CT Drive Partner Network",
     react: React.createElement(PartnerWelcomeEmail, {
       partnerName: data.name,
       loginEmail: data.email,

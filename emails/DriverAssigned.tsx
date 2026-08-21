@@ -57,7 +57,7 @@ export const DriverAssignedEmail = ({
         <Text style={text}>
           Please have your ID and booking reference ready for the driver upon collection.
         </Text>
-        <Text style={footer}>CT Logistics Ltd, Mombasa, Kenya</Text>
+        <Text style={footer}>Corban Technologies LTD, Mombasa, Kenya</Text>
       </Container>
     </Body>
   </Html>

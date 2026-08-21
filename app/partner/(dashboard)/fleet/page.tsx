@@ -16,7 +16,7 @@ export default async function PartnerFleetPage() {
 
       {myAssets.length === 0 ? (
         <div className="glass-card p-10 text-center text-white/30">
-          No vehicles registered. Contact CT Logistics admin to add vehicles.
+          No vehicles registered. Contact CT Drive admin to add vehicles.
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

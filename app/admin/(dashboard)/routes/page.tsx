@@ -3,7 +3,7 @@ import { routes } from "@/db/schema";
 import { RoutesClientWrapper } from "./_components/RoutesClientWrapper";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Corridors & Rates | CT Logistics Admin" };
+export const metadata: Metadata = { title: "Corridors & Rates | CT Drive Admin" };
 export const dynamic = "force-dynamic";
 
 export default async function RoutesPage() {

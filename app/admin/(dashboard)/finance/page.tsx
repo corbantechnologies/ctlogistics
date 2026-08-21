@@ -3,7 +3,7 @@ import { bookings, tripLegs, assets, partners } from "@/db/schema";
 import { eq, desc, isNotNull } from "drizzle-orm";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Finance & Ledger | CT Logistics Admin" };
+export const metadata: Metadata = { title: "Finance & Ledger | CT Drive Admin" };
 export const dynamic = "force-dynamic";
 
 export default async function FinancePage() {

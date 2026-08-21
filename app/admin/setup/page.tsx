@@ -9,7 +9,7 @@ import { adminUsers } from "@/db/schema";
 import { SetupForm } from "./_SetupForm";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "First-Time Setup | CT Logistics" };
+export const metadata: Metadata = { title: "First-Time Setup | CT Drive" };
 export const dynamic = "force-dynamic";
 
 export default async function SetupPage() {

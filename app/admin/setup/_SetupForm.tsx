@@ -1,8 +1,9 @@
-﻿"use client";
+"use client";
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { createAdminUser } from "@/app/actions/users";
+import toast from "react-hot-toast";
 
 export function SetupForm() {
   const router = useRouter();
@@ -19,9 +20,12 @@ export function SetupForm() {
     startTransition(async () => {
       const result = await createAdminUser(fd);
       if ("success" in result) {
-        router.push("/admin/login?setup=done");
+        toast.success("Admin account created! Redirecting to login...");
+        setTimeout(() => router.push("/admin/login?setup=done"), 1500);
       } else {
-        setError(typeof result.error === "string" ? result.error : "Please check the form.");
+        const errMsg = typeof result.error === "string" ? result.error : "Please check the form.";
+        toast.error(errMsg);
+        setError(errMsg);
       }
     });
   }

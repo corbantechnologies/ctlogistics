@@ -145,7 +145,7 @@ export default function BookingPage() {
             <div className="h-8 w-8 rounded-lg bg-amber-400 flex items-center justify-center">
               <span className="text-black font-black text-xs">CT</span>
             </div>
-            <span className="font-bold text-white tracking-tight">CT Logistics</span>
+            <span className="font-bold text-white tracking-tight">CT Drive</span>
           </Link>
           <nav className="hidden sm:flex items-center gap-6 text-sm text-white/50">
           </nav>
@@ -234,7 +234,7 @@ export default function BookingPage() {
 
         {/* Footer */}
         <footer className="px-6 py-6 text-center text-xs text-white/20 border-t border-white/5">
-          CT Logistics · Mombasa, Kenya · Liability insulated via tri-party digital agreements
+          CT Drive · Mombasa, Kenya · Liability insulated via tri-party digital agreements
         </footer>
       </div>
     </div>

@@ -2,11 +2,11 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "CT Logistics — Kenya's Smartest Transport Platform",
+  title: "CT Drive — Kenya's Smartest Transport Platform",
   description:
     "Instant quotes for car rentals, private transfers and safari tours across Kenya. No account needed. Book in under 2 minutes.",
   openGraph: {
-    title: "CT Logistics — Kenya's Smartest Transport Platform",
+    title: "CT Drive — Kenya's Smartest Transport Platform",
     description: "Instant quotes · Real-time tracking · Digital handovers",
     type: "website",
   },
@@ -87,7 +87,7 @@ export default function LandingPage() {
             <span className="text-black font-black text-sm">CT</span>
           </div>
           <div>
-            <span className="font-bold text-white text-lg tracking-tight">CT Logistics</span>
+            <span className="font-bold text-white text-lg tracking-tight">CT Drive</span>
             <span className="ml-2 text-xs text-white/30 hidden sm:inline">Mombasa, Kenya</span>
           </div>
         </Link>
@@ -245,13 +245,13 @@ export default function LandingPage() {
         <section className="px-6 md:px-12 py-20 border-y border-white/5">
           <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <p className="section-label">Why CT Logistics</p>
+              <p className="section-label">Why CT Drive</p>
               <h2 className="text-4xl font-black text-white leading-tight">
                 A Platform Built for<br />
                 <span className="text-amber-400">Accountability</span>
               </h2>
               <p className="text-white/50 leading-relaxed">
-                Every booking on CT Logistics is backed by a digital paper trail — photos at delivery
+                Every booking on CT Drive is backed by a digital paper trail — photos at delivery
                 and collection, canvas signatures, M-Pesa references, and GPS data. No more he-said-she-said disputes.
               </p>
               <ul className="space-y-3">
@@ -336,7 +336,7 @@ export default function LandingPage() {
               <span className="text-black font-black text-xs">CT</span>
             </div>
             <div>
-              <p className="font-bold text-white text-sm">CT Logistics Ltd</p>
+              <p className="font-bold text-white text-sm">Corban Technologies LTD</p>
               <p className="text-xs text-white/30">Mombasa, Kenya</p>
             </div>
           </div>

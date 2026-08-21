@@ -1,14 +1,14 @@
 ﻿import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | CT Logistics",
-  description: "Terms and conditions governing the use of the CT Logistics platform.",
+  title: "Terms of Service | CT Drive",
+  description: "Terms and conditions governing the use of the CT Drive platform.",
 };
 
 const SECTIONS = [
   {
     title: "1. Nature of Our Services",
-    content: "CT Logistics operates as a pure technology orchestrator and logistics broker. We provide a digital platform connecting customers (Guests/Clients) with third-party transport providers (Partners). We do not own, lease, or operate transport vehicles directly, nor are we a common carrier. All transport services are executed by independent third-party transport providers.",
+    content: "CT Drive operates as a pure technology orchestrator and logistics broker. We provide a digital platform connecting customers (Guests/Clients) with third-party transport providers (Partners). We do not own, lease, or operate transport vehicles directly, nor are we a common carrier. All transport services are executed by independent third-party transport providers.",
   },
   {
     title: "2. Booking and Quotes",
@@ -20,7 +20,7 @@ const SECTIONS = [
   },
   {
     title: "4. Liability and Insurance",
-    content: "All physical transport risks, vehicle liability, and passenger injuries are covered solely by the third-party partner's commercial PSV or comprehensive private insurance. CT Logistics assumes no liability for any property damage, personal injury, delay, or direct/indirect loss arising from the transport services executed by partners. The client agrees to hold CT Logistics harmless from any claims arising out of the performance of the transport service.",
+    content: "All physical transport risks, vehicle liability, and passenger injuries are covered solely by the third-party partner's commercial PSV or comprehensive private insurance. CT Drive assumes no liability for any property damage, personal injury, delay, or direct/indirect loss arising from the transport services executed by partners. The client agrees to hold CT Drive harmless from any claims arising out of the performance of the transport service.",
   },
   {
     title: "5. Digital Handover and Verification",
@@ -49,7 +49,7 @@ export default function TermsPage() {
 
         <div className="glass-card p-6 md:p-8 space-y-6">
           <p className="text-white/70 leading-relaxed">
-            Please read these Terms of Service carefully before using the CT Logistics platform. By booking a service or accessing our platform, you agree to be bound by these terms.
+            Please read these Terms of Service carefully before using the CT Drive platform. By booking a service or accessing our platform, you agree to be bound by these terms.
           </p>
 
           <div className="border-t border-white/8 pt-6 space-y-8">
@@ -63,7 +63,7 @@ export default function TermsPage() {
         </div>
 
         <div className="text-center text-xs text-white/20">
-          Questions regarding these terms? Contact CT Logistics legal department.
+          Questions regarding these terms? Contact CT Drive legal department.
         </div>
       </div>
     </div>

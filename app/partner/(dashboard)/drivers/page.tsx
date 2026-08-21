@@ -16,7 +16,7 @@ export default async function PartnerDriversPage() {
 
       {myDrivers.length === 0 ? (
         <div className="glass-card p-10 text-center text-white/30">
-          No drivers registered. Contact CT Logistics admin to add drivers.
+          No drivers registered. Contact CT Drive admin to add drivers.
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

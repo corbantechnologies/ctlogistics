@@ -1,7 +1,7 @@
 ﻿import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | CT Logistics",
+  title: "Privacy Policy | CT Drive",
   description: "Privacy Policy explaining how we collect, use, and share information on our platform.",
 };
 
@@ -28,7 +28,7 @@ const SECTIONS = [
   },
   {
     title: "6. Your Rights and Contact",
-    content: "You have the right to request access to or deletion of your personal data collected by our platform, subject to legal bookkeeping obligations. If you have questions regarding your data privacy, please contact the CT Logistics data protection officer.",
+    content: "You have the right to request access to or deletion of your personal data collected by our platform, subject to legal bookkeeping obligations. If you have questions regarding your data privacy, please contact the CT Drive data protection officer.",
   },
 ];
 
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
 
         <div className="glass-card p-6 md:p-8 space-y-6">
           <p className="text-white/70 leading-relaxed">
-            This Privacy Policy explains how CT Logistics collects, uses, and protects your personal data when you interact with our platform.
+            This Privacy Policy explains how CT Drive collects, uses, and protects your personal data when you interact with our platform.
           </p>
 
           <div className="border-t border-white/8 pt-6 space-y-8">
@@ -63,7 +63,7 @@ export default function PrivacyPage() {
         </div>
 
         <div className="text-center text-xs text-white/20">
-          Have data privacy questions? Contact CT Logistics compliance support.
+          Have data privacy questions? Contact CT Drive compliance support.
         </div>
       </div>
     </div>

@@ -2,9 +2,12 @@ import { Resend } from "resend";
 import { render } from "@react-email/components";
 import * as React from "react";
 
-// Initialize Resend with the API key from environment variables
 const resend = new Resend(process.env.RESEND_API_KEY || "re_dummy_key");
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "bookings@ctlogistics.co.ke";
+const FROM_EMAIL = process.env.FROM_EMAIL || process.env.RESEND_FROM_EMAIL;
+
+if (!FROM_EMAIL && process.env.NODE_ENV === "production") {
+  throw new Error("Missing FROM_EMAIL environment variable. Email functionality requires a verified sender address.");
+}
 
 export interface EmailOptions {
   to: string | string[];
@@ -28,15 +31,22 @@ export async function sendEmail({ to, subject, react }: EmailOptions) {
   }
 
   try {
-    const data = await resend.emails.send({
-      from: `CT Logistics <${FROM_EMAIL}>`,
+    const response = await resend.emails.send({
+      from: `CT Drive <${FROM_EMAIL}>`,
       to,
       subject,
       react,
     });
-    return { success: true, data };
-  } catch (error) {
-    console.error("Failed to send email via Resend:", error);
-    return { success: false, error };
+    
+    if (response.error) {
+      console.error("[RESEND API ERROR]:", response.error);
+      throw new Error(response.error.message);
+    }
+    
+    console.log(`[EMAIL SENT] Successfully sent email to ${to}. ID: ${response.data?.id}`);
+    return { success: true, data: response.data };
+  } catch (error: any) {
+    console.error("[EMAIL FAILED] Failed to send email via Resend:", error.message || error);
+    throw error;
   }
 }

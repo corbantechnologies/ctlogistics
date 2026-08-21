@@ -4,7 +4,7 @@ import { eq, or } from "drizzle-orm";
 import { EventGroupBuilder } from "./_components/EventGroupBuilder";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Group Events | CT Logistics Admin" };
+export const metadata: Metadata = { title: "Group Events | CT Drive Admin" };
 export const dynamic = "force-dynamic";
 
 export default async function EventsPage() {

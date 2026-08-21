@@ -1,26 +1,37 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { partnerSignIn } from "@/app/actions/auth";
 import toast from "react-hot-toast";
 
-export default function PartnerLoginPage() {
+export default function PartnerForgotPasswordPage() {
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
-
-  const [show, setShow] = useState(false);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     const fd = new FormData(e.currentTarget);
+    const email = fd.get("email") as string;
+    
     startTransition(async () => {
-      const result = await partnerSignIn(fd);
-      if (result?.error) {
-        toast.error(result.error);
-        setError(result.error);
-      } else {
-        toast.success("Login successful!");
+      try {
+        const { partnerAuthClient } = await import("@/lib/auth-client.partner");
+        const { error } = await partnerAuthClient.forgetPassword({
+          email,
+          redirectTo: `${window.location.origin}/partner/reset-password`
+        });
+
+        if (error) {
+          toast.error(error.message || "Failed to send reset email");
+          setError(error.message);
+        } else {
+          toast.success("Password reset email sent! Check your inbox.");
+          (e.target as HTMLFormElement).reset();
+        }
+      } catch (err: any) {
+        console.error("[PARTNER FRONTEND] Error caught during forgetPassword API call:", err);
+        toast.error("An unexpected error occurred");
+        setError(err.message);
       }
     });
   }
@@ -36,10 +47,10 @@ export default function PartnerLoginPage() {
           <div className="mx-auto mb-4 h-12 w-12 rounded-2xl bg-green-500 flex items-center justify-center">
             <span className="text-white font-black text-lg">P</span>
           </div>
-          <h1 className="text-2xl font-bold text-white">Partner Portal</h1>
-          <p className="text-white/40 text-sm mt-1">Manage your fleet and assignments</p>
+          <h1 className="text-2xl font-bold text-white">Forgot Password</h1>
+          <p className="text-white/40 text-sm mt-1">Enter your partner email to receive a reset link.</p>
         </div>
-        <form method="POST" onSubmit={handleSubmit} className="glass-card p-7 space-y-5 border-green-500/20">
+        <form onSubmit={handleSubmit} className="glass-card p-7 space-y-5 border-green-500/20">
           {error && (
             <div className="rounded-xl bg-red-400/10 border border-red-400/20 px-4 py-3 text-sm text-red-400">{error}</div>
           )}
@@ -47,31 +58,13 @@ export default function PartnerLoginPage() {
             <span className="section-label mb-2 block">Login Email</span>
             <input name="email" type="email" required placeholder="partner@example.com" className="input-field" />
           </label>
-          <label className="block">
-            <div className="flex items-center justify-between mb-2">
-              <span className="section-label">Password</span>
-              <a href="/partner/forgot-password" className="text-xs text-green-500 hover:underline">
-                Forgot password?
-              </a>
-            </div>
-            <div className="relative">
-              <input name="password" type={show ? "text" : "password"} required placeholder="••••••••" className="input-field pr-16" />
-              <button
-                type="button"
-                onClick={() => setShow(!show)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-white/30 hover:text-white"
-              >
-                {show ? "Hide" : "Show"}
-              </button>
-            </div>
-          </label>
+          
           <button type="submit" disabled={isPending} className="btn-primary w-full">
-            {isPending ? "Signing in…" : "Sign In →"}
+            {isPending ? "Sending link…" : "Send Reset Link →"}
           </button>
         </form>
         <p className="text-center text-xs text-white/20">
-          CT Drive Admin?{" "}
-          <a href="/admin/login" className="text-amber-400/60 hover:text-amber-400">Admin Portal →</a>
+          Remember your password? <a href="/partner/login" className="text-green-500/60 hover:text-green-500">Back to Login →</a>
         </p>
       </div>
     </div>

@@ -26,13 +26,13 @@ export const PartnerWelcomeEmail = ({
 }: PartnerWelcomeProps) => (
   <Html>
     <Head />
-    <Preview>Welcome to CT Logistics Partner Network</Preview>
+    <Preview>Welcome to CT Drive Partner Network</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Welcome to CT Logistics</Heading>
+        <Heading style={h1}>Welcome to CT Drive</Heading>
         <Text style={text}>Hi {partnerName},</Text>
         <Text style={text}>
-          Your partner account has been successfully created. You can now access the CT Logistics Partner Portal to manage your fleet, view assigned jobs, and track your settlements.
+          Your partner account has been successfully created. You can now access the CT Drive Partner Portal to manage your fleet, view assigned jobs, and track your settlements.
         </Text>
         
         <Section style={detailsSection}>
@@ -52,7 +52,7 @@ export const PartnerWelcomeEmail = ({
         <Text style={text}>
           Please log in and change your password immediately from the Settings page.
         </Text>
-        <Text style={footer}>CT Logistics Ltd, Mombasa, Kenya</Text>
+        <Text style={footer}>Corban Technologies LTD, Mombasa, Kenya</Text>
       </Container>
     </Body>
   </Html>

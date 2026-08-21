@@ -3,7 +3,7 @@ import { partners } from "@/db/schema";
 import { PartnerTable } from "./_components/PartnerTable";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Fleet & Partners | CT Logistics Admin" };
+export const metadata: Metadata = { title: "Fleet & Partners | CT Drive Admin" };
 export const dynamic = "force-dynamic";
 
 export default async function FleetPage() {

@@ -105,7 +105,7 @@ export function ClientDetailsStep({ onSubmit, isSubmitting }: Props) {
           className="mt-0.5 h-4 w-4 rounded border-white/30 bg-white/10 text-amber-400 focus:ring-amber-400/50"
         />
         <span className="text-sm text-white/60 leading-relaxed">
-          I agree to CT Logistics'{" "}
+          I agree to CT Drive'{" "}
           <a href="/terms" className="text-amber-400 hover:underline" target="_blank">
             Terms of Service
           </a>{" "}

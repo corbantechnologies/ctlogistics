@@ -7,7 +7,8 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Admin routes — require __admin_session
-  if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login") && !pathname.startsWith("/admin/setup")) {
+  const publicAdminRoutes = ["/admin/login", "/admin/setup", "/admin/forgot-password", "/admin/reset-password"];
+  if (pathname.startsWith("/admin") && !publicAdminRoutes.some(r => pathname.startsWith(r))) {
     const session = req.cookies.get(ADMIN_COOKIE);
     if (!session?.value) {
       const loginUrl = new URL("/admin/login", req.url);
@@ -17,7 +18,8 @@ export function middleware(req: NextRequest) {
   }
 
   // Partner routes — require __partner_session
-  if (pathname.startsWith("/partner") && !pathname.startsWith("/partner/login")) {
+  const publicPartnerRoutes = ["/partner/login", "/partner/forgot-password", "/partner/reset-password"];
+  if (pathname.startsWith("/partner") && !publicPartnerRoutes.some(r => pathname.startsWith(r))) {
     const session = req.cookies.get(PARTNER_COOKIE);
     if (!session?.value) {
       const loginUrl = new URL("/partner/login", req.url);

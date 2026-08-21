@@ -25,7 +25,7 @@ export function AdminSidebar({ role, userName }: Props) {
           <span className="text-black font-black text-xs">CT</span>
         </div>
         <div>
-          <p className="text-sm font-bold text-white">CT Logistics</p>
+          <p className="text-sm font-bold text-white">CT Drive</p>
           <p className="text-xs text-amber-400/70 capitalize">{role?.toLowerCase()}</p>
         </div>
       </div>

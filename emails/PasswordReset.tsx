@@ -11,47 +11,35 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-interface BookingReceiptProps {
-  clientName: string;
-  bookingRef: string;
-  amountPaid: number;
-  paymentMethod: string;
-  receiptUrl: string;
+interface PasswordResetProps {
+  userType: "Admin" | "Partner";
+  resetLink: string;
 }
 
-export const BookingReceiptEmail = ({
-  clientName = "Client",
-  bookingRef = "BK-XXXXXX",
-  amountPaid = 0,
-  paymentMethod = "M-PESA",
-  receiptUrl = "https://www.ctdrive.co.ke/track/xxx/receipt",
-}: BookingReceiptProps) => (
+export const PasswordResetEmail = ({
+  userType = "Admin",
+  resetLink = "https://www.ctdrive.co.ke",
+}: PasswordResetProps) => (
   <Html>
     <Head />
-    <Preview>Payment Receipt for Booking {bookingRef}</Preview>
+    <Preview>Reset your CT Drive {userType} password</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Payment Received</Heading>
-        <Text style={text}>Hi {clientName},</Text>
+        <Heading style={h1}>Password Reset Request</Heading>
         <Text style={text}>
-          We have successfully received your payment for booking <strong>{bookingRef}</strong>.
+          We received a request to reset your password for your CT Drive <strong>{userType}</strong> account.
         </Text>
         
-        <Section style={detailsSection}>
-          <Text style={detailsText}><strong>Amount Paid:</strong> KES {amountPaid.toLocaleString()}</Text>
-          <Text style={detailsText}><strong>Payment Method:</strong> {paymentMethod}</Text>
-          <Text style={detailsText}><strong>Status:</strong> Confirmed</Text>
-        </Section>
-        
         <Section style={buttonContainer}>
-          <Link href={receiptUrl} style={button}>
-            Download Full Receipt (PDF)
+          <Link href={resetLink} style={button}>
+            Reset Password
           </Link>
         </Section>
         
         <Text style={text}>
-          Thank you for choosing CT Drive. We look forward to serving you.
+          If you didn't request this, you can safely ignore this email. Your password will not change until you click the link above and create a new one.
         </Text>
+        
         <Text style={footer}>Corban Technologies LTD, Mombasa, Kenya</Text>
       </Container>
     </Body>
@@ -85,26 +73,13 @@ const text = {
   padding: "0 20px",
 };
 
-const detailsSection = {
-  backgroundColor: "#f4f4f5",
-  padding: "20px",
-  margin: "20px",
-  borderRadius: "8px",
-};
-
-const detailsText = {
-  color: "#333",
-  fontSize: "15px",
-  margin: "0 0 10px 0",
-};
-
 const buttonContainer = {
   textAlign: "center" as const,
   margin: "32px 0",
 };
 
 const button = {
-  backgroundColor: "#3b82f6", // Blue color for receipt
+  backgroundColor: "#3b82f6",
   borderRadius: "4px",
   color: "#fff",
   fontSize: "16px",
@@ -123,4 +98,4 @@ const footer = {
   marginTop: "48px",
 };
 
-export default BookingReceiptEmail;
+export default PasswordResetEmail;
