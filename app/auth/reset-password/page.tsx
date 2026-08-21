@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useTransition, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { verifyAndResetPassword } from "@/app/actions/auth";
 import toast from "react-hot-toast";
 
 function ResetPasswordForm() {
@@ -10,11 +11,12 @@ function ResetPasswordForm() {
   const token = searchParams.get("token");
   
   const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
   const [show, setShow] = useState(false);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
     setError(null);
     const fd = new FormData(e.currentTarget);
     const password = fd.get("password") as string;
@@ -22,30 +24,27 @@ function ResetPasswordForm() {
     
     if (!formToken) {
       setError("Reset token is required. Please check your email.");
+      setIsLoading(false);
       return;
     }
 
-    startTransition(async () => {
-      try {
-        const { adminAuthClient } = await import("@/lib/auth-client.admin");
-        const { error } = await adminAuthClient.resetPassword({
-          newPassword: password,
-          token: formToken
-        });
+    try {
+      const res = await verifyAndResetPassword(formToken, password);
 
-        if (error) {
-          toast.error(error.message || "Failed to reset password");
-          setError(error.message);
-        } else {
-          toast.success("Password reset successful!");
-          setTimeout(() => router.push("/admin/login"), 1500);
-        }
-      } catch (err: any) {
-        toast.error("An unexpected error occurred");
-        setError(err.message);
+      if (res?.error) {
+        toast.error(res.error);
+        setError(res.error);
+      } else {
+        toast.success("Password reset successful!");
+        setTimeout(() => router.push("/auth/login"), 1500);
       }
-    });
-  }
+    } catch (err: any) {
+      toast.error("An unexpected error occurred");
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="glass-card p-7 space-y-5">
@@ -87,8 +86,8 @@ function ResetPasswordForm() {
         </div>
       </label>
       
-      <button type="submit" disabled={isPending} className="btn-primary w-full">
-        {isPending ? "Resetting…" : "Reset Password →"}
+      <button type="submit" disabled={isLoading} className="btn-primary w-full">
+        {isLoading ? "Resetting…" : "Reset Password →"}
       </button>
     </form>
   );
@@ -107,7 +106,7 @@ export default function AdminResetPasswordPage() {
             <span className="text-black font-black text-lg">CT</span>
           </div>
           <h1 className="text-2xl font-bold text-white">Set New Password</h1>
-          <p className="text-white/40 text-sm mt-1">Enter your new admin password below.</p>
+          <p className="text-white/40 text-sm mt-1">Enter your new password below.</p>
         </div>
         
         <Suspense fallback={<div className="glass-card p-7 text-center text-white/50">Loading...</div>}>

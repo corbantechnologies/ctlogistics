@@ -5,7 +5,7 @@ import { db } from "@/db";
 import { bookings, tripLegs } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { getAdminSession } from "./auth";
+import { auth } from "@/auth";
 
 const assignSchema = z.object({
   tripLegId: z.string().uuid(),
@@ -16,7 +16,7 @@ const assignSchema = z.object({
 });
 
 export async function assignPartnerToBooking(formData: FormData) {
-  const session = await getAdminSession();
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
 
   const parsed = assignSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -58,9 +58,9 @@ export async function assignPartnerToBooking(formData: FormData) {
       react: React.createElement(DriverAssignedEmail, {
         clientName: booking.clientName,
         bookingRef,
-        driverName: driver.fullName,
+        driverName: driver.name,
         driverPhone: driver.phone,
-        vehicleModel: `${asset.make} ${asset.model}`,
+        vehicleModel: asset.makeModel,
         vehiclePlate: asset.plateNumber,
         trackingLink: `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.ctdrive.co.ke"}/track/${booking.accessToken}`,
       }),
@@ -72,7 +72,7 @@ export async function assignPartnerToBooking(formData: FormData) {
 }
 
 export async function updateBookingStatus(bookingId: string, status: "CONFIRMED" | "CANCELLED" | "IN_PROGRESS" | "COMPLETED") {
-  const session = await getAdminSession();
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
 
   await db.update(bookings).set({ status, updatedAt: new Date() }).where(eq(bookings.id, bookingId));
@@ -81,7 +81,7 @@ export async function updateBookingStatus(bookingId: string, status: "CONFIRMED"
 }
 
 export async function recordPayment(formData: FormData) {
-  const session = await getAdminSession();
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
 
   const { payments } = await import("@/db/schema");

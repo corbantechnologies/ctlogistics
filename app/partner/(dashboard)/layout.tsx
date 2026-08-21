@@ -1,16 +1,16 @@
-﻿import { redirect } from "next/navigation";
-import { getPartnerSession } from "@/app/actions/auth";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 import { PartnerSidebar } from "./_components/PartnerSidebar";
 import { db } from "@/db";
-import { partnerUsers, partners } from "@/db/schema";
+import { users, partners } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export default async function PartnerLayout({ children }: { children: React.ReactNode }) {
-  const session = await getPartnerSession();
-  if (!session) redirect("/partner/login");
+  const session = await auth();
+  if (!session) redirect("/auth/login");
 
-  const user = await db.query.partnerUsers.findFirst({
-    where: eq(partnerUsers.id, session.user.id),
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, session.user.id),
     with: { partner: true },
   });
 

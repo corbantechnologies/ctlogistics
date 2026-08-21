@@ -25,7 +25,7 @@ export const InsuranceAlertEmail = ({
 }: InsuranceAlertProps) => (
   <Html>
     <Head />
-    <Preview>Alert: Insurance expiring in {daysRemaining} days for {vehiclePlate}</Preview>
+    <Preview>Alert: Insurance expiring in {String(daysRemaining)} days for {vehiclePlate}</Preview>
     <Body style={main}>
       <Container style={container}>
         <Heading style={h1}>Insurance Expiry Alert</Heading>

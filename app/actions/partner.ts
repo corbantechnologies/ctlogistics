@@ -1,17 +1,17 @@
-﻿"use server";
+"use server";
 
 import { db } from "@/db";
 import { assets, drivers, tripLegs, partners } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { getPartnerSession } from "./auth";
+import { auth } from "@/auth";
 
 async function getPartnerId(): Promise<string | null> {
-  const session = await getPartnerSession();
+  const session = await auth();
   if (!session) return null;
-  // partnerId is stored on the user record in partnerUsers
-  const user = await db.query.partnerUsers.findFirst({
-    where: eq((await import("@/db/schema")).partnerUsers.id, session.user.id),
+  // partnerId is stored on the user record in users
+  const user = await db.query.users.findFirst({
+    where: eq((await import("@/db/schema")).users.id, session.user.id),
   });
   return user?.partnerId ?? null;
 }

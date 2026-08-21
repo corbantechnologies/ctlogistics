@@ -164,10 +164,10 @@ export default async function FinancePage() {
           </p>
           <div className="flex flex-wrap gap-3">
             {allAssets.slice(0, 8).map(asset => (
-              <div key={asset.id} className={`border rounded-lg px-4 py-2 ${asset.complianceStatus === 'VERIFIED' ? 'border-green-500/20 bg-green-500/5' : 'border-amber-500/20 bg-amber-500/5'}`}>
+              <div key={asset.id} className={`border rounded-lg px-4 py-2 ${asset.partner.complianceStatus === 'APPROVED' ? 'border-green-500/20 bg-green-500/5' : 'border-amber-500/20 bg-amber-500/5'}`}>
                 <p className="text-sm font-bold text-white">{asset.plateNumber}</p>
-                <p className={`text-xs ${asset.complianceStatus === 'VERIFIED' ? 'text-green-400' : 'text-amber-400'}`}>
-                  {asset.complianceStatus}
+                <p className={`text-xs ${asset.partner.complianceStatus === 'APPROVED' ? 'text-green-400' : 'text-amber-400'}`}>
+                  {asset.partner.complianceStatus}
                 </p>
               </div>
             ))}

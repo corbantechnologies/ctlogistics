@@ -1,6 +1,7 @@
-﻿import { db } from "@/db";
-import { adminUsers, partnerUsers, partners } from "@/db/schema";
+import { db } from "@/db";
+import { users, partners } from "@/db/schema";
 import { UsersPanel } from "./_components/UsersPanel";
+import { eq, inArray } from "drizzle-orm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "User Management | CT Drive Admin" };
@@ -8,10 +9,14 @@ export const dynamic = "force-dynamic";
 
 export default async function UsersPage() {
   const [allAdmins, allPartnerUsers, allPartners] = await Promise.all([
-    db.query.adminUsers.findMany({ orderBy: adminUsers.createdAt }),
-    db.query.partnerUsers.findMany({
+    db.query.users.findMany({ 
+      where: inArray(users.role, ["ADMIN", "DISPATCHER"]),
+      orderBy: users.createdAt 
+    }),
+    db.query.users.findMany({
+      where: eq(users.role, "PARTNER"),
       with: { partner: true },
-      orderBy: partnerUsers.createdAt,
+      orderBy: users.createdAt,
     }),
     db.query.partners.findMany({
       where: (p, { eq }) => eq(p.isActive, true),

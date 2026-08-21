@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { adminChangePassword } from "@/app/actions/auth";
+import { changePassword } from "@/app/actions/auth";
 
 export default function AdminSettingsPage() {
   const [error, setError] = useState<string | null>(null);
@@ -13,6 +13,7 @@ export default function AdminSettingsPage() {
     setError(null);
     setSuccess(false);
     const fd = new FormData(e.currentTarget);
+    const form = e.currentTarget;
     
     if (fd.get("newPassword") !== fd.get("confirmPassword")) {
       setError("New passwords do not match.");
@@ -20,12 +21,12 @@ export default function AdminSettingsPage() {
     }
 
     startTransition(async () => {
-      const result = await adminChangePassword(fd);
-      if (result?.error) {
-        setError(result.error);
+      const res = await changePassword(fd);
+      if (res?.error) {
+        setError(res.error);
       } else {
         setSuccess(true);
-        (e.target as HTMLFormElement).reset();
+        form.reset();
       }
     });
   }

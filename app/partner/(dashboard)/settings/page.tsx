@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { partnerChangePassword } from "@/app/actions/auth";
+import { changePassword } from "@/app/actions/auth";
 
 export default function PartnerSettingsPage() {
   const [error, setError] = useState<string | null>(null);
@@ -13,6 +13,7 @@ export default function PartnerSettingsPage() {
     setError(null);
     setSuccess(false);
     const fd = new FormData(e.currentTarget);
+    const form = e.currentTarget;
     
     if (fd.get("newPassword") !== fd.get("confirmPassword")) {
       setError("New passwords do not match.");
@@ -20,12 +21,12 @@ export default function PartnerSettingsPage() {
     }
 
     startTransition(async () => {
-      const result = await partnerChangePassword(fd);
-      if (result?.error) {
-        setError(result.error);
+      const res = await changePassword(fd);
+      if (res?.error) {
+        setError(res.error);
       } else {
         setSuccess(true);
-        (e.target as HTMLFormElement).reset();
+        form.reset();
       }
     });
   }

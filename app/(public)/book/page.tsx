@@ -101,7 +101,7 @@ export default function BookingPage() {
       if (d.deliveryAddress) fd.set("deliveryAddress", d.deliveryAddress);
       if (d.collectionAddress) fd.set("collectionAddress", d.collectionAddress);
       fd.set("deliveryDistanceKm", String(d.deliveryDistanceKm ?? 0));
-      startTransition(() => createRentalBooking(fd));
+      startTransition(async () => { await createRentalBooking(fd); });
     } else if (serviceType === "SAFARI_TOUR" || serviceType === "EVENT_CHARTER") {
       const d = serviceData as SafariData;
       fd.set("bookingType", d.bookingType);
@@ -112,7 +112,7 @@ export default function BookingPage() {
       fd.set("scheduledTime", d.scheduledTime);
       fd.set("paxCount", String(d.paxCount));
       fd.set("specialRequirements", d.specialRequirements);
-      startTransition(() => createSafariBooking(fd));
+      startTransition(async () => { await createSafariBooking(fd); });
     } else {
       const d = serviceData as TransferData;
       fd.set("bookingType", d.bookingType);
@@ -123,7 +123,7 @@ export default function BookingPage() {
       fd.set("scheduledTime", d.scheduledTime);
       if (d.distanceKm) fd.set("distanceKm", String(d.distanceKm));
       fd.set("returnMultiplier", String(d.returnMultiplier));
-      startTransition(() => createTransferBooking(fd));
+      startTransition(async () => { await createTransferBooking(fd); });
     }
   }
 

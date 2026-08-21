@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { partnerSignOut } from "@/app/actions/auth";
+import { logOut } from "@/app/actions/auth";
 
 const NAV_ITEMS = [
   { href: "/partner/dashboard", icon: "📊", label: "My Jobs" },
@@ -39,7 +39,7 @@ export function PartnerSidebar({ companyName }: Props) {
           <Link href="/partner/settings" className="btn-ghost flex-1 text-xs py-2 text-white/50 text-center">
             Settings
           </Link>
-          <form action={partnerSignOut} className="flex-1">
+          <form action={logOut} className="flex-1">
             <button type="submit" className="btn-ghost w-full text-xs py-2 text-white/50">
               Sign Out
             </button>

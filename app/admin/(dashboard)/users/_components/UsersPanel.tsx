@@ -1,7 +1,7 @@
-﻿"use client";
+"use client";
 
 import { useState, useTransition } from "react";
-import { createAdminUser, createPartnerUser, toggleAdminUserStatus, togglePartnerUserStatus } from "@/app/actions/users";
+import { createAdminUser, createPartnerUser, toggleUserStatus } from "@/app/actions/users";
 
 interface Props {
   admins: any[];
@@ -71,11 +71,11 @@ export function UsersPanel({ admins, partnerUsers, partners }: Props) {
   }
 
   function handleToggleAdmin(userId: string, current: boolean) {
-    startTransition(() => toggleAdminUserStatus(userId, !current));
+    startTransition(async () => { await toggleUserStatus(userId, !current); });
   }
 
   function handleTogglePartner(userId: string, current: boolean) {
-    startTransition(() => togglePartnerUserStatus(userId, !current));
+    startTransition(async () => { await toggleUserStatus(userId, !current); });
   }
 
   return (

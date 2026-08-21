@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { adminSignOut } from "@/app/actions/auth";
+import { logOut } from "@/app/actions/auth";
 
 const NAV_ITEMS = [
   { href: "/admin/dispatch", icon: "📡", label: "Watchtower" },
@@ -60,7 +60,7 @@ export function AdminSidebar({ role, userName }: Props) {
           <Link href="/admin/settings" className="btn-ghost flex-1 text-xs py-2 text-white/50 text-center">
             Settings
           </Link>
-          <form action={adminSignOut} className="flex-1">
+          <form action={logOut} className="flex-1">
             <button type="submit" className="btn-ghost w-full text-xs py-2 text-white/50">
               Sign Out
             </button>

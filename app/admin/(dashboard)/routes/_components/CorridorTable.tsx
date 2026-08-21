@@ -11,12 +11,12 @@ export function CorridorTable({ routes }: Props) {
   const [isPending, startTransition] = useTransition();
 
   function handleToggle(routeId: string, current: boolean) {
-    startTransition(() => toggleRouteStatus(routeId, !current));
+    startTransition(async () => { await toggleRouteStatus(routeId, !current); });
   }
 
   function handleDelete(routeId: string) {
     if (confirm("Are you sure you want to suspend this corridor? Booking history will remain intact, but it will no longer be available for new bookings.")) {
-      startTransition(() => deleteRoute(routeId));
+      startTransition(async () => { await deleteRoute(routeId); });
     }
   }
 

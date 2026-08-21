@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useTransition } from "react";
 import { updatePartnerCompliance, createPartner, addAsset } from "@/app/actions/fleet";
@@ -15,8 +15,10 @@ export function PartnerTable({ partners }: Props) {
   const [showAddAsset, setShowAddAsset] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
+
+
   function handleComplianceChange(partnerId: string, status: "PENDING" | "APPROVED" | "SUSPENDED") {
-    startTransition(() => updatePartnerCompliance(partnerId, status));
+    startTransition(async () => { await updatePartnerCompliance(partnerId, status); });
   }
 
   function handleAddPartner(e: React.FormEvent<HTMLFormElement>) {

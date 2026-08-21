@@ -4,11 +4,11 @@ import { db } from "@/db";
 import { routes, routeRateCards } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { getAdminSession } from "./auth";
+import { auth } from "@/auth";
 import { z } from "zod";
 
 export async function createRouteWithRateCards(formData: FormData) {
-  const session = await getAdminSession();
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
 
   try {
@@ -36,11 +36,11 @@ export async function createRouteWithRateCards(formData: FormData) {
         const retailSellRate = parseInt(formData.get(`sell_${cat}`) as string) || 0;
         return {
           routeId: newRoute.id,
-          vehicleCategory: cat as any,
-          defaultBuyRate,
-          retailSellRate,
+          vehicleCategory: cat as "SALOON" | "COMPACT_SUV" | "PRADO_LUXURY" | "SAFARI_CRUISER_4X4" | "TOUR_VAN" | "MINIBUS_14_SEATER" | "COASTER_33_SEATER" | "COACH_50_SEATER",
+          defaultBuyRate: defaultBuyRate.toString(),
+          retailSellRate: retailSellRate.toString(),
         };
-      }).filter(rc => rc.defaultBuyRate > 0 && rc.retailSellRate > 0);
+      }).filter(rc => parseInt(rc.defaultBuyRate) > 0 && parseInt(rc.retailSellRate) > 0);
 
       if (rateCardsToInsert.length > 0) {
         await tx.insert(routeRateCards).values(rateCardsToInsert);
@@ -58,7 +58,7 @@ export async function createRouteWithRateCards(formData: FormData) {
 }
 
 export async function toggleRouteStatus(routeId: string, isActive: boolean) {
-  const session = await getAdminSession();
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
   await db.update(routes).set({ isActive }).where(eq(routes.id, routeId));
   revalidatePath("/admin/routes");
@@ -66,7 +66,7 @@ export async function toggleRouteStatus(routeId: string, isActive: boolean) {
 }
 
 export async function deleteRoute(routeId: string) {
-  const session = await getAdminSession();
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
   // Soft delete logic: We assume setting isActive to false acts as a soft-delete/suspension. 
   // We don't drop rows to keep booking history intact.
@@ -76,7 +76,7 @@ export async function deleteRoute(routeId: string) {
 }
 
 export async function updateRateCard(formData: FormData) {
-  const session = await getAdminSession();
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
 
   const id = formData.get("id") as string;

@@ -1,4 +1,4 @@
-﻿import { relations } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import { partners, drivers } from "./partners";
 import { assets } from "./assets";
 import { bookings } from "./bookings";
@@ -6,13 +6,13 @@ import { payments } from "./payments";
 import { tripLegs } from "./tripLegs";
 import { handovers } from "./handovers";
 import { routes, routeRateCards } from "./routes";
-import { partnerUsers } from "./users";
+import { users } from "./users";
 
 // ── Partners ───────────────────────────────────────────────────────────────────
 export const partnersRelations = relations(partners, ({ many }) => ({
   assets: many(assets),
   drivers: many(drivers),
-  partnerUsers: many(partnerUsers),
+  users: many(users),
 }));
 
 export const driversRelations = relations(drivers, ({ one, many }) => ({
@@ -61,7 +61,7 @@ export const routeRateCardsRelations = relations(routeRateCards, ({ one }) => ({
   route: one(routes, { fields: [routeRateCards.routeId], references: [routes.id] }),
 }));
 
-// ── Partner Users ─────────────────────────────────────────────────────────────
-export const partnerUsersRelations = relations(partnerUsers, ({ one }) => ({
-  partner: one(partners, { fields: [partnerUsers.partnerId], references: [partners.id] }),
+// ── Users ─────────────────────────────────────────────────────────────
+export const usersRelations = relations(users, ({ one }) => ({
+  partner: one(partners, { fields: [users.partnerId], references: [partners.id] }),
 }));

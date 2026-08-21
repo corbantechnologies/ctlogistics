@@ -21,7 +21,7 @@ export function SetupForm() {
       const result = await createAdminUser(fd);
       if ("success" in result) {
         toast.success("Admin account created! Redirecting to login...");
-        setTimeout(() => router.push("/admin/login?setup=done"), 1500);
+        setTimeout(() => router.push("/auth/login?setup=done"), 1500);
       } else {
         const errMsg = typeof result.error === "string" ? result.error : "Please check the form.";
         toast.error(errMsg);
@@ -75,7 +75,7 @@ export function SetupForm() {
       </button>
 
       <p className="text-xs text-white/25 text-center">
-        After setup, sign in at <strong className="text-white/40">/admin/login</strong>. You can then create dispatcher and partner accounts from the Users section.
+        After setup, sign in at <strong className="text-white/40">/auth/login</strong>. You can then create dispatcher and partner accounts from the Users section.
       </p>
     </form>
   );

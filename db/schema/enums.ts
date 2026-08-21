@@ -1,4 +1,4 @@
-﻿import { pgEnum } from "drizzle-orm/pg-core";
+import { pgEnum } from "drizzle-orm/pg-core";
 
 export const bookingTypeEnum = pgEnum("booking_type", [
   "CAR_RENTAL",
@@ -62,4 +62,5 @@ export const paymentStatusEnum = pgEnum("payment_status", [
 export const userRoleEnum = pgEnum("user_role", [
   "ADMIN",
   "DISPATCHER",
+  "PARTNER",
 ]);

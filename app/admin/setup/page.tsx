@@ -1,11 +1,12 @@
-﻿/**
+/**
  * /admin/setup — First-run setup page
  * Only accessible if no admin accounts exist yet.
  * Once the first admin is created, this page redirects to /admin/login.
  */
 import { redirect } from "next/navigation";
 import { db } from "@/db";
-import { adminUsers } from "@/db/schema";
+import { users } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { SetupForm } from "./_SetupForm";
 import type { Metadata } from "next";
 
@@ -14,8 +15,10 @@ export const dynamic = "force-dynamic";
 
 export default async function SetupPage() {
   // If any admin already exists, this page is permanently closed
-  const existing = await db.query.adminUsers.findFirst();
-  if (existing) redirect("/admin/login");
+  const existing = await db.query.users.findFirst({
+    where: eq(users.role, "ADMIN"),
+  });
+  if (existing) redirect("/auth/login");
 
   return (
     <div className="min-h-dvh flex items-center justify-center px-4 relative">

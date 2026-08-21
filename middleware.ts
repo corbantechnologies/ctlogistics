@@ -1,30 +1,63 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config";
 
-const ADMIN_COOKIE = "__admin_session";
-const PARTNER_COOKIE = "__partner_session";
+const { auth } = NextAuth(authConfig);
 
-export function middleware(req: NextRequest) {
+const PUBLIC_ROUTES = [
+  "/auth/login",
+  "/auth/forgot-password",
+  "/auth/reset-password",
+  "/admin/setup",
+  "/privacy",
+  "/terms"
+];
+
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Admin routes — require __admin_session
-  const publicAdminRoutes = ["/admin/login", "/admin/setup", "/admin/forgot-password", "/admin/reset-password"];
-  if (pathname.startsWith("/admin") && !publicAdminRoutes.some(r => pathname.startsWith(r))) {
-    const session = req.cookies.get(ADMIN_COOKIE);
-    if (!session?.value) {
-      const loginUrl = new URL("/admin/login", req.url);
-      loginUrl.searchParams.set("next", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
+  // Allow static files and API routes (except maybe some guarded API routes in the future)
+  if (
+    pathname.startsWith("/_next") ||
+    pathname.match(/\.(png|jpg|jpeg|gif|svg|ico)$/) ||
+    pathname.startsWith("/api/auth")
+  ) {
+    return NextResponse.next();
   }
 
-  // Partner routes — require __partner_session
-  const publicPartnerRoutes = ["/partner/login", "/partner/forgot-password", "/partner/reset-password"];
-  if (pathname.startsWith("/partner") && !publicPartnerRoutes.some(r => pathname.startsWith(r))) {
-    const session = req.cookies.get(PARTNER_COOKIE);
-    if (!session?.value) {
-      const loginUrl = new URL("/partner/login", req.url);
-      loginUrl.searchParams.set("next", pathname);
-      return NextResponse.redirect(loginUrl);
+  // Check if it's a protected route (starts with /admin or /partner)
+  const isProtectedRoute = (pathname.startsWith("/admin") || pathname.startsWith("/partner")) && !pathname.startsWith("/admin/setup");
+
+  // Use Auth.js to get session
+  const session = await auth();
+
+  // If no session and trying to access guarded routes, redirect to login
+  if (isProtectedRoute && !session) {
+    return NextResponse.redirect(new URL(`/auth/login?next=${encodeURIComponent(pathname)}`, req.url));
+  }
+
+  if (session) {
+    const role = session.user.role;
+
+    // Guard /admin routes
+    if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/setup")) {
+      if (role === "PARTNER") {
+        return NextResponse.redirect(new URL("/partner", req.url));
+      }
+    }
+
+    // Guard /partner routes
+    if (pathname.startsWith("/partner")) {
+      if (role === "ADMIN" || role === "DISPATCHER") {
+        return NextResponse.redirect(new URL("/admin", req.url));
+      }
+    }
+
+    // Optional: If user accesses /auth/login while logged in, redirect them
+    if (pathname.startsWith("/auth/login")) {
+      if (role === "PARTNER") return NextResponse.redirect(new URL("/partner", req.url));
+      return NextResponse.redirect(new URL("/admin", req.url));
     }
   }
 
@@ -32,5 +65,7 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/partner/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico).*)",
+  ],
 };
