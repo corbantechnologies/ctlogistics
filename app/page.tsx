@@ -95,8 +95,6 @@ export default function LandingPage() {
           <a href="#services" className="hover:text-white transition-colors">Services</a>
           <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
           <a href="#fleet" className="hover:text-white transition-colors">Fleet</a>
-          <a href="/admin/login" className="hover:text-white transition-colors">Admin</a>
-          <a href="/partner/login" className="hover:text-white transition-colors">Partner</a>
         </nav>
         <Link href="/book" className="btn-primary py-2.5 px-5 text-sm">
           Book Now
@@ -344,8 +342,6 @@ export default function LandingPage() {
           </div>
           <nav className="flex flex-wrap justify-center gap-6 text-xs text-white/30">
             <a href="/book" className="hover:text-white transition-colors">Book a Trip</a>
-            <a href="/admin/login" className="hover:text-white transition-colors">Admin Portal</a>
-            <a href="/partner/login" className="hover:text-white transition-colors">Partner Portal</a>
             <a href="/terms" className="hover:text-white transition-colors">Terms</a>
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
           </nav>

@@ -148,8 +148,6 @@ export default function BookingPage() {
             <span className="font-bold text-white tracking-tight">CT Logistics</span>
           </Link>
           <nav className="hidden sm:flex items-center gap-6 text-sm text-white/50">
-            <a href="/admin/login" className="hover:text-white transition-colors">Admin</a>
-            <a href="/partner/login" className="hover:text-white transition-colors">Partner</a>
           </nav>
         </header>
 

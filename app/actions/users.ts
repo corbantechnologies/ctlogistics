@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import { z } from "zod";
 import { db } from "@/db";
@@ -101,6 +101,21 @@ export async function createPartnerUser(formData: FormData) {
     email: data.email,
     hashedPassword,
     isActive: true,
+  });
+
+  const { sendEmail } = await import("@/lib/email");
+  const { PartnerWelcomeEmail } = await import("@/emails/PartnerWelcome");
+  const React = await import("react");
+
+  await sendEmail({
+    to: data.email,
+    subject: "Welcome to CT Logistics Partner Network",
+    react: React.createElement(PartnerWelcomeEmail, {
+      partnerName: data.name,
+      loginEmail: data.email,
+      tempPassword: data.password,
+      portalLink: `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.ctdrive.co.ke"}/partner/login`,
+    }),
   });
 
   revalidatePath("/admin/users");

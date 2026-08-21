@@ -1,7 +1,7 @@
-﻿"use client";
+"use client";
 
 import { useState, useTransition } from "react";
-import { toggleRouteStatus, updateRateCard } from "@/app/actions/routes";
+import { toggleRouteStatus, updateRateCard, deleteRoute } from "@/app/actions/routes";
 import { VEHICLE_CATEGORY_LABELS } from "@/app/(public)/_components/types";
 
 interface Props { routes: any[]; }
@@ -12,6 +12,12 @@ export function CorridorTable({ routes }: Props) {
 
   function handleToggle(routeId: string, current: boolean) {
     startTransition(() => toggleRouteStatus(routeId, !current));
+  }
+
+  function handleDelete(routeId: string) {
+    if (confirm("Are you sure you want to suspend this corridor? Booking history will remain intact, but it will no longer be available for new bookings.")) {
+      startTransition(() => deleteRoute(routeId));
+    }
   }
 
   return (
@@ -43,6 +49,14 @@ export function CorridorTable({ routes }: Props) {
                 className="btn-ghost py-1.5 px-3 text-xs"
               >
                 {expanded === route.id ? "Close" : "Rate Cards"} {route.rateCards?.length ?? 0}
+              </button>
+              <button
+                onClick={() => handleDelete(route.id)}
+                disabled={isPending}
+                className="text-xs rounded-lg px-3 py-1.5 font-medium transition-colors bg-white/5 text-white/40 hover:bg-red-500/20 hover:text-red-400"
+                title="Soft delete (suspend) corridor"
+              >
+                Delete
               </button>
             </div>
           </div>

@@ -1,7 +1,6 @@
-﻿import { db } from "@/db";
-import { routes, routeRateCards } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import { CorridorTable } from "./_components/CorridorTable";
+import { db } from "@/db";
+import { routes } from "@/db/schema";
+import { RoutesClientWrapper } from "./_components/RoutesClientWrapper";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = { title: "Corridors & Rates | CT Logistics Admin" };
@@ -15,11 +14,7 @@ export default async function RoutesPage() {
 
   return (
     <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-white">Corridors & Rate Cards</h1>
-        <p className="text-white/40 text-sm mt-1">{allRoutes.length} corridors · Edit sell rates inline</p>
-      </div>
-      <CorridorTable routes={allRoutes as any} />
+      <RoutesClientWrapper allRoutes={allRoutes as any} />
     </div>
   );
 }

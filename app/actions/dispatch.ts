@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import { z } from "zod";
 import { db } from "@/db";
@@ -33,10 +33,39 @@ export async function assignPartnerToBooking(formData: FormData) {
     })
     .where(eq(tripLegs.id, data.tripLegId));
 
-  await db
+  const [booking] = await db
     .update(bookings)
     .set({ status: "DISPATCHED", updatedAt: new Date() })
-    .where(eq(bookings.id, data.bookingId));
+    .where(eq(bookings.id, data.bookingId))
+    .returning();
+
+  // Fetch driver and asset to send the email
+  const driver = await db.query.drivers.findFirst({ where: (d, { eq }) => eq(d.id, data.driverId) });
+  const asset = await db.query.assets.findFirst({ where: (a, { eq }) => eq(a.id, data.assetId) });
+
+  if (booking.clientEmail && driver && asset) {
+    const bookingRef = booking.id.split('-')[0].toUpperCase();
+    
+    // We need the email import and React - but they aren't imported here.
+    // I should add the imports at the top of the file!
+    const { sendEmail } = await import("@/lib/email");
+    const { DriverAssignedEmail } = await import("@/emails/DriverAssigned");
+    const React = await import("react");
+
+    await sendEmail({
+      to: booking.clientEmail,
+      subject: `Driver Assigned: ${bookingRef}`,
+      react: React.createElement(DriverAssignedEmail, {
+        clientName: booking.clientName,
+        bookingRef,
+        driverName: driver.fullName,
+        driverPhone: driver.phone,
+        vehicleModel: `${asset.make} ${asset.model}`,
+        vehiclePlate: asset.plateNumber,
+        trackingLink: `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.ctdrive.co.ke"}/track/${booking.accessToken}`,
+      }),
+    });
+  }
 
   revalidatePath("/admin/dispatch");
   return { success: true };
@@ -68,10 +97,30 @@ export async function recordPayment(formData: FormData) {
   });
 
   const isDeposit = formData.get("isDeposit") === "true";
-  await db.update(bookings).set({
+  const [booking] = await db.update(bookings).set({
     ...(isDeposit ? { isDepositPaid: true } : { isFullPaymentReceived: true }),
     updatedAt: new Date(),
-  }).where(eq(bookings.id, formData.get("bookingId") as string));
+  }).where(eq(bookings.id, formData.get("bookingId") as string))
+  .returning();
+
+  if (booking.clientEmail) {
+    const bookingRef = booking.id.split('-')[0].toUpperCase();
+    const { sendEmail } = await import("@/lib/email");
+    const { BookingReceiptEmail } = await import("@/emails/BookingReceipt");
+    const React = await import("react");
+
+    await sendEmail({
+      to: booking.clientEmail,
+      subject: `Payment Receipt: ${bookingRef}`,
+      react: React.createElement(BookingReceiptEmail, {
+        clientName: booking.clientName,
+        bookingRef,
+        amountPaid: parseFloat(formData.get("amount") as string),
+        paymentMethod: formData.get("channel") as string,
+        receiptUrl: `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.ctdrive.co.ke"}/track/${booking.accessToken}/receipt`,
+      }),
+    });
+  }
 
   revalidatePath("/admin/dispatch");
   return { success: true };

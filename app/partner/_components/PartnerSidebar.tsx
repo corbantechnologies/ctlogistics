@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -35,9 +35,16 @@ export function PartnerSidebar({ companyName }: Props) {
         ))}
       </nav>
       <div className="border-t border-white/8 p-4">
-        <form action={partnerSignOut}>
-          <button type="submit" className="btn-ghost w-full text-xs py-2 text-white/50">Sign Out</button>
-        </form>
+        <div className="flex gap-2">
+          <Link href="/partner/settings" className="btn-ghost flex-1 text-xs py-2 text-white/50 text-center">
+            Settings
+          </Link>
+          <form action={partnerSignOut} className="flex-1">
+            <button type="submit" className="btn-ghost w-full text-xs py-2 text-white/50">
+              Sign Out
+            </button>
+          </form>
+        </div>
       </div>
     </aside>
   );

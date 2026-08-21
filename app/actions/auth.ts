@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import { adminAuth } from "@/lib/auth.admin";
 import { partnerAuth } from "@/lib/auth.partner";
@@ -36,6 +36,25 @@ export async function getAdminSession() {
   return adminAuth.api.getSession({ headers: await headers() });
 }
 
+export async function adminChangePassword(formData: FormData) {
+  const currentPassword = formData.get("currentPassword") as string;
+  const newPassword = formData.get("newPassword") as string;
+
+  if (!currentPassword || !newPassword) {
+    return { error: "Both current and new passwords are required" };
+  }
+
+  try {
+    await adminAuth.api.changePassword({
+      body: { newPassword, currentPassword, revokeOtherSessions: true },
+      headers: await headers(),
+    });
+    return { success: true };
+  } catch {
+    return { error: "Failed to change password. Please check your current password." };
+  }
+}
+
 // ─── Partner Auth Actions ─────────────────────────────────────────────────────
 
 export async function partnerSignIn(formData: FormData) {
@@ -65,4 +84,23 @@ export async function partnerSignOut() {
 
 export async function getPartnerSession() {
   return partnerAuth.api.getSession({ headers: await headers() });
+}
+
+export async function partnerChangePassword(formData: FormData) {
+  const currentPassword = formData.get("currentPassword") as string;
+  const newPassword = formData.get("newPassword") as string;
+
+  if (!currentPassword || !newPassword) {
+    return { error: "Both current and new passwords are required" };
+  }
+
+  try {
+    await partnerAuth.api.changePassword({
+      body: { newPassword, currentPassword, revokeOtherSessions: true },
+      headers: await headers(),
+    });
+    return { success: true };
+  } catch {
+    return { error: "Failed to change password. Please check your current password." };
+  }
 }

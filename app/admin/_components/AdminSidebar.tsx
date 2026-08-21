@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { href: "/admin/dispatch", icon: "📡", label: "Watchtower" },
   { href: "/admin/routes", icon: "🛣️", label: "Corridors & Rates" },
   { href: "/admin/fleet", icon: "🚐", label: "Fleet & Partners" },
+  { href: "/admin/finance", icon: "💰", label: "Finance & Ledger" },
   { href: "/admin/events", icon: "🎪", label: "Group Events" },
   { href: "/admin/users", icon: "👥", label: "Users & Accounts" },
 ];
@@ -55,11 +56,16 @@ export function AdminSidebar({ role, userName }: Props) {
             <p className="text-xs text-white/30 capitalize">{role?.toLowerCase()}</p>
           </div>
         </div>
-        <form action={adminSignOut}>
-          <button type="submit" className="btn-ghost w-full text-xs py-2 text-white/50">
-            Sign Out
-          </button>
-        </form>
+        <div className="flex gap-2">
+          <Link href="/admin/settings" className="btn-ghost flex-1 text-xs py-2 text-white/50 text-center">
+            Settings
+          </Link>
+          <form action={adminSignOut} className="flex-1">
+            <button type="submit" className="btn-ghost w-full text-xs py-2 text-white/50">
+              Sign Out
+            </button>
+          </form>
+        </div>
       </div>
     </aside>
   );
