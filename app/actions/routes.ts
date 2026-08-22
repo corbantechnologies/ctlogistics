@@ -68,9 +68,26 @@ export async function toggleRouteStatus(routeId: string, isActive: boolean) {
 export async function deleteRoute(routeId: string) {
   const session = await auth();
   if (!session) return { error: "Unauthorized" };
-  // Soft delete logic: We assume setting isActive to false acts as a soft-delete/suspension. 
-  // We don't drop rows to keep booking history intact.
-  await db.update(routes).set({ isActive: false }).where(eq(routes.id, routeId));
+  await db.delete(routes).where(eq(routes.id, routeId));
+  revalidatePath("/admin/routes");
+  return { success: true };
+}
+
+export async function updateRoute(formData: FormData) {
+  const session = await auth();
+  if (!session) return { error: "Unauthorized" };
+
+  const id = formData.get("id") as string;
+  await db.update(routes).set({
+    name: formData.get("name") as string,
+    originZone: formData.get("originZone") as string,
+    destinationZone: formData.get("destinationZone") as string,
+    estimatedDurationMins: parseInt(formData.get("estimatedDurationMins") as string),
+    standardDistanceKm: parseInt(formData.get("standardDistanceKm") as string),
+    tollsIncluded: formData.get("tollsIncluded") === "true",
+    deadheadIncluded: formData.get("deadheadIncluded") === "true",
+  }).where(eq(routes.id, id));
+  
   revalidatePath("/admin/routes");
   return { success: true };
 }

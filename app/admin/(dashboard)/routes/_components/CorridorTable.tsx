@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { toggleRouteStatus, updateRateCard, deleteRoute } from "@/app/actions/routes";
+import { toggleRouteStatus, updateRateCard, deleteRoute, updateRoute } from "@/app/actions/routes";
 import { VEHICLE_CATEGORY_LABELS } from "@/app/(public)/_components/types";
 
 interface Props { routes: any[]; }
@@ -9,6 +9,7 @@ interface Props { routes: any[]; }
 export function CorridorTable({ routes }: Props) {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const [editRoute, setEditRoute] = useState<any | null>(null);
   const [isPending, startTransition] = useTransition();
 
   function handleToggle(routeId: string, current: boolean) {
@@ -39,13 +40,23 @@ export function CorridorTable({ routes }: Props) {
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => handleToggle(route.id, route.isActive)}
-                disabled={isPending}
-                className={`text-xs rounded px-3 py-1.5 font-medium transition-colors ${route.isActive ? "bg-green-400/10 text-green-400 hover:bg-red-400/10 hover:text-red-400" : "bg-white/10 text-white/40 hover:bg-green-400/10 hover:text-green-400"}`}
-              >
-                {route.isActive ? "Active" : "Inactive"}
-              </button>
+              {route.isActive ? (
+                <button
+                  onClick={() => handleToggle(route.id, route.isActive)}
+                  disabled={isPending}
+                  className="text-xs rounded px-3 py-1.5 font-medium transition-colors bg-amber-500/10 text-amber-400 hover:bg-amber-500/20"
+                >
+                  Suspend
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleToggle(route.id, route.isActive)}
+                  disabled={isPending}
+                  className="text-xs rounded px-3 py-1.5 font-medium transition-colors bg-green-500/10 text-green-400 hover:bg-green-500/20"
+                >
+                  Activate
+                </button>
+              )}
               <button
                 onClick={() => setExpanded(expanded === route.id ? null : route.id)}
                 className="btn-ghost py-1.5 px-3 text-xs"
@@ -53,10 +64,17 @@ export function CorridorTable({ routes }: Props) {
                 {expanded === route.id ? "Close" : "Rate Cards"} {route.rateCards?.length ?? 0}
               </button>
               <button
+                onClick={() => setEditRoute(route)}
+                disabled={isPending}
+                className="text-xs rounded px-3 py-1.5 font-medium transition-colors bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
+              >
+                Edit
+              </button>
+              <button
                 onClick={() => setConfirmDelete(route.id)}
                 disabled={isPending}
                 className="text-xs rounded px-3 py-1.5 font-medium transition-colors bg-white/5 text-white/40 hover:bg-red-500/20 hover:text-red-400"
-                title="Soft delete (suspend) corridor"
+                title="Permanently delete corridor"
               >
                 Delete
               </button>
@@ -93,10 +111,10 @@ export function CorridorTable({ routes }: Props) {
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
-              <h3 className="text-lg font-bold">Suspend Corridor?</h3>
+              <h3 className="text-lg font-bold">Permanently Delete?</h3>
             </div>
             <p className="text-sm text-white/60 leading-relaxed">
-              Are you sure you want to suspend this corridor? Booking history will remain intact, but it will no longer be available for new bookings.
+              Are you absolutely sure you want to delete this corridor? This action cannot be undone and will remove all associated rate cards.
             </p>
             <div className="flex justify-end gap-3 mt-6">
               <button
@@ -111,9 +129,68 @@ export function CorridorTable({ routes }: Props) {
                 disabled={isPending}
                 className="btn-primary px-4 py-2 text-sm bg-red-500/20 border-red-500/30 text-red-400 hover:bg-red-500/30"
               >
-                {isPending ? "Suspending..." : "Yes, Suspend"}
+                {isPending ? "Deleting..." : "Yes, Delete"}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {editRoute && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
+          <div className="glass-card max-w-lg w-full p-6 space-y-6 shadow-2xl shadow-black/50 border border-white/10 m-auto mt-20">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-bold text-white">Edit Corridor</h3>
+              <button onClick={() => setEditRoute(null)} className="text-white/40 hover:text-white">✕</button>
+            </div>
+            <form action={async (fd) => {
+              fd.set("id", editRoute.id);
+              fd.set("tollsIncluded", fd.get("tollsIncluded") === "on" ? "true" : "false");
+              fd.set("deadheadIncluded", fd.get("deadheadIncluded") === "on" ? "true" : "false");
+              startTransition(async () => {
+                await updateRoute(fd);
+                setEditRoute(null);
+              });
+            }} className="space-y-4">
+              <label className="block">
+                <span className="text-xs text-white/50 mb-1 block">Corridor Name</span>
+                <input name="name" defaultValue={editRoute.name} required className="input-field" />
+              </label>
+              <div className="grid grid-cols-2 gap-4">
+                <label className="block">
+                  <span className="text-xs text-white/50 mb-1 block">Origin Zone</span>
+                  <input name="originZone" defaultValue={editRoute.originZone} required className="input-field" />
+                </label>
+                <label className="block">
+                  <span className="text-xs text-white/50 mb-1 block">Destination Zone</span>
+                  <input name="destinationZone" defaultValue={editRoute.destinationZone} required className="input-field" />
+                </label>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <label className="block">
+                  <span className="text-xs text-white/50 mb-1 block">Distance (km)</span>
+                  <input name="standardDistanceKm" type="number" defaultValue={editRoute.standardDistanceKm} required className="input-field" />
+                </label>
+                <label className="block">
+                  <span className="text-xs text-white/50 mb-1 block">Duration (mins)</span>
+                  <input name="estimatedDurationMins" type="number" defaultValue={editRoute.estimatedDurationMins} required className="input-field" />
+                </label>
+              </div>
+              <div className="flex gap-6 pt-2">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" name="tollsIncluded" defaultChecked={editRoute.tollsIncluded} className="accent-amber-400" />
+                  <span className="text-sm text-white/70">Tolls Included</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" name="deadheadIncluded" defaultChecked={editRoute.deadheadIncluded} className="accent-amber-400" />
+                  <span className="text-sm text-white/70">Deadhead Included</span>
+                </label>
+              </div>
+              <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
+                <button type="button" onClick={() => setEditRoute(null)} disabled={isPending} className="btn-ghost px-4 py-2 text-sm">Cancel</button>
+                <button type="submit" disabled={isPending} className="btn-primary px-4 py-2 text-sm">{isPending ? "Saving..." : "Save Changes"}</button>
+              </div>
+            </form>
           </div>
         </div>
       )}
