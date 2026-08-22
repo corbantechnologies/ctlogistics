@@ -56,12 +56,13 @@ export function AdminSidebar({ role, userName }: Props) {
             <p className="text-xs text-white/30 capitalize">{role?.toLowerCase()}</p>
           </div>
         </div>
-        <div className="flex gap-2">
-          <Link href="/admin/settings" className="btn-ghost flex-1 text-xs py-2 text-white/50 text-center">
+        <div className="flex items-center gap-3 pt-1">
+          <Link href="/admin/settings" className="text-xs text-white/40 hover:text-white transition-colors">
             Settings
           </Link>
-          <form action={logOut} className="flex-1">
-            <button type="submit" className="btn-ghost w-full text-xs py-2 text-white/50">
+          <span className="text-white/10">•</span>
+          <form action={logOut}>
+            <button type="submit" className="text-xs text-white/40 hover:text-red-400 transition-colors">
               Sign Out
             </button>
           </form>
