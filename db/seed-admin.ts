@@ -36,24 +36,10 @@ const ADMIN_ACCOUNTS = [
 ];
 // ─────────────────────────────────────────────────────────────────────────────
 
+import bcrypt from "bcryptjs";
+
 async function hashPassword(plain: string): Promise<string> {
-  // better-auth uses argon2 internally, but for direct DB seeding we
-  // use the same hashing util it exposes so the login flow works correctly.
-  const { createHash } = await import("crypto");
-  // bcrypt-style: we use better-auth's password utility if available,
-  // otherwise fall back to the same bcrypt implementation it uses.
-  try {
-    const { hashPassword: baHash } = await import("better-auth/crypto");
-    return baHash(plain);
-  } catch {
-    // Fallback: SHA-256 hex (NOT secure for production — see note below)
-    console.warn(
-      "⚠️  Could not import better-auth/crypto. Using SHA-256 fallback.\n" +
-      "   Ensure better-auth is installed before running this script.\n" +
-      "   Run: npm install first."
-    );
-    return createHash("sha256").update(plain).digest("hex");
-  }
+  return bcrypt.hash(plain, 12);
 }
 
 async function seedAdmins() {
@@ -64,8 +50,8 @@ async function seedAdmins() {
 
   for (const account of ADMIN_ACCOUNTS) {
     // Check if already exists
-    const existing = await db.query.adminUsers.findFirst({
-      where: eq(schema.adminUsers.email, account.email),
+    const existing = await db.query.users.findFirst({
+      where: eq(schema.users.email, account.email),
     });
 
     if (existing) {
@@ -75,7 +61,7 @@ async function seedAdmins() {
 
     const hashedPassword = await hashPassword(account.password);
 
-    await db.insert(schema.adminUsers).values({
+    await db.insert(schema.users).values({
       name: account.name,
       email: account.email,
       role: account.role,

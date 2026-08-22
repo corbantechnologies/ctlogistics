@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import { z } from "zod";
 import { db } from "@/db";
@@ -12,6 +12,9 @@ import {
 } from "@/lib/pricing";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import * as React from "react";
+import { sendEmail } from "@/lib/email";
+import { BookingConfirmationEmail } from "@/emails/BookingConfirmation";
 
 // ─── Shared validation schemas ────────────────────────────────────────────────
 
@@ -128,6 +131,21 @@ export async function createRentalBooking(formData: FormData) {
     handoverToken,
   });
 
+  if (data.clientEmail) {
+    const bookingRef = booking.id.split('-')[0].toUpperCase();
+    await sendEmail({
+      to: data.clientEmail,
+      subject: `Booking Received: ${bookingRef}`,
+      react: React.createElement(BookingConfirmationEmail, {
+        clientName: data.clientName,
+        bookingRef,
+        serviceType: "Car Rental",
+        totalAmount: quote.sellRate,
+        trackingLink: `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.ctdrive.co.ke"}/track/${accessToken}`,
+      }),
+    });
+  }
+
   redirect(`/track/${accessToken}`);
 }
 
@@ -188,6 +206,21 @@ export async function createTransferBooking(formData: FormData) {
     handoverToken,
   });
 
+  if (data.clientEmail) {
+    const bookingRef = booking.id.split('-')[0].toUpperCase();
+    await sendEmail({
+      to: data.clientEmail,
+      subject: `Booking Received: ${bookingRef}`,
+      react: React.createElement(BookingConfirmationEmail, {
+        clientName: data.clientName,
+        bookingRef,
+        serviceType: data.bookingType === "ZONAL_TRANSFER" ? "Zonal Transfer" : "Inter-County Transfer",
+        totalAmount: quote.sellRate,
+        trackingLink: `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.ctdrive.co.ke"}/track/${accessToken}`,
+      }),
+    });
+  }
+
   redirect(`/track/${accessToken}`);
 }
 
@@ -245,6 +278,21 @@ export async function createSafariBooking(formData: FormData) {
     partnerPayout: quote.buyRate.toString(),
     handoverToken,
   });
+
+  if (data.clientEmail) {
+    const bookingRef = booking.id.split('-')[0].toUpperCase();
+    await sendEmail({
+      to: data.clientEmail,
+      subject: `Booking Received: ${bookingRef}`,
+      react: React.createElement(BookingConfirmationEmail, {
+        clientName: data.clientName,
+        bookingRef,
+        serviceType: data.bookingType === "SAFARI_TOUR" ? "Safari Tour" : "Event Charter",
+        totalAmount: quote.sellRate,
+        trackingLink: `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.ctdrive.co.ke"}/track/${accessToken}`,
+      }),
+    });
+  }
 
   redirect(`/track/${accessToken}`);
 }

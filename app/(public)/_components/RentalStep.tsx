@@ -38,7 +38,7 @@ export function RentalStep({ onNext }: Props) {
     1,
     Math.ceil(
       (new Date(endDate).getTime() - new Date(startDate).getTime()) /
-        (1000 * 60 * 60 * 24)
+      (1000 * 60 * 60 * 24)
     )
   );
 
@@ -95,14 +95,12 @@ export function RentalStep({ onNext }: Props) {
       <label className="flex items-center gap-3 cursor-pointer group">
         <div
           onClick={() => setDeliver(!deliver)}
-          className={`relative h-6 w-11 rounded-full transition-colors duration-200 ${
-            deliver ? "bg-amber-400" : "bg-white/20"
-          }`}
+          className={`relative h-6 w-11 rounded transition-colors duration-200 ${deliver ? "bg-amber-400" : "bg-white/20"
+            }`}
         >
           <span
-            className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${
-              deliver ? "translate-x-5" : "translate-x-0"
-            }`}
+            className={`absolute top-0.5 left-0.5 h-5 w-5 rounded bg-white shadow transition-transform duration-200 ${deliver ? "translate-x-5" : "translate-x-0"
+              }`}
           />
         </div>
         <span className="text-sm text-white group-hover:text-amber-300 transition-colors">
@@ -111,7 +109,7 @@ export function RentalStep({ onNext }: Props) {
       </label>
 
       {deliver && (
-        <div className="space-y-3 rounded-xl border border-amber-400/20 bg-amber-400/5 p-4">
+        <div className="space-y-3 rounded border border-amber-400/20 bg-amber-400/5 p-4">
           <label className="block">
             <span className="mb-1 block text-xs font-medium text-white/60 uppercase tracking-wide">
               Delivery Address

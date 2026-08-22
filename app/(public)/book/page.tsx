@@ -1,17 +1,18 @@
-﻿"use client";
+"use client";
 
 import { useState, useTransition } from "react";
-import { ServiceSelector } from "./_components/ServiceSelector";
-import { RentalStep } from "./_components/RentalStep";
-import { TransferStep } from "./_components/TransferStep";
-import { SafariStep } from "./_components/SafariStep";
-import { QuoteCard } from "./_components/QuoteCard";
-import { ClientDetailsStep } from "./_components/ClientDetailsStep";
-import type { BookingType, QuoteResult, Route } from "./_components/types";
-import type { RentalData } from "./_components/RentalStep";
-import type { TransferData } from "./_components/TransferStep";
-import type { SafariData } from "./_components/SafariStep";
-import type { ClientData } from "./_components/ClientDetailsStep";
+import Link from "next/link";
+import { ServiceSelector } from "../_components/ServiceSelector";
+import { RentalStep } from "../_components/RentalStep";
+import { TransferStep } from "../_components/TransferStep";
+import { SafariStep } from "../_components/SafariStep";
+import { QuoteCard } from "../_components/QuoteCard";
+import { ClientDetailsStep } from "../_components/ClientDetailsStep";
+import type { BookingType, QuoteResult, Route } from "../_components/types";
+import type { RentalData } from "../_components/RentalStep";
+import type { TransferData } from "../_components/TransferStep";
+import type { SafariData } from "../_components/SafariStep";
+import type { ClientData } from "../_components/ClientDetailsStep";
 import {
   createRentalBooking,
   createTransferBooking,
@@ -100,7 +101,7 @@ export default function BookingPage() {
       if (d.deliveryAddress) fd.set("deliveryAddress", d.deliveryAddress);
       if (d.collectionAddress) fd.set("collectionAddress", d.collectionAddress);
       fd.set("deliveryDistanceKm", String(d.deliveryDistanceKm ?? 0));
-      startTransition(() => createRentalBooking(fd));
+      startTransition(async () => { await createRentalBooking(fd); });
     } else if (serviceType === "SAFARI_TOUR" || serviceType === "EVENT_CHARTER") {
       const d = serviceData as SafariData;
       fd.set("bookingType", d.bookingType);
@@ -111,7 +112,7 @@ export default function BookingPage() {
       fd.set("scheduledTime", d.scheduledTime);
       fd.set("paxCount", String(d.paxCount));
       fd.set("specialRequirements", d.specialRequirements);
-      startTransition(() => createSafariBooking(fd));
+      startTransition(async () => { await createSafariBooking(fd); });
     } else {
       const d = serviceData as TransferData;
       fd.set("bookingType", d.bookingType);
@@ -122,7 +123,7 @@ export default function BookingPage() {
       fd.set("scheduledTime", d.scheduledTime);
       if (d.distanceKm) fd.set("distanceKm", String(d.distanceKm));
       fd.set("returnMultiplier", String(d.returnMultiplier));
-      startTransition(() => createTransferBooking(fd));
+      startTransition(async () => { await createTransferBooking(fd); });
     }
   }
 
@@ -132,23 +133,21 @@ export default function BookingPage() {
     <div className="min-h-dvh relative overflow-hidden">
       {/* Background gradient */}
       <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute -top-40 -right-40 h-[600px] w-[600px] rounded-full bg-amber-500/10 blur-[120px]" />
-        <div className="absolute -bottom-40 -left-20 h-[500px] w-[500px] rounded-full bg-blue-900/20 blur-[100px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[800px] rounded-full bg-amber-900/5 blur-[80px]" />
+        <div className="absolute -top-40 -right-40 h-[600px] w-[600px] rounded bg-amber-500/10 blur-[120px]" />
+        <div className="absolute -bottom-40 -left-20 h-[500px] w-[500px] rounded bg-blue-900/20 blur-[100px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[800px] rounded bg-amber-900/5 blur-[80px]" />
       </div>
 
       <div className="relative z-10 flex min-h-dvh flex-col">
         {/* Header */}
         <header className="flex items-center justify-between px-6 py-5 border-b border-white/5">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-amber-400 flex items-center justify-center">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded bg-amber-400 flex items-center justify-center">
               <span className="text-black font-black text-xs">CT</span>
             </div>
-            <span className="font-bold text-white tracking-tight">CT Logistics</span>
-          </div>
+            <span className="font-bold text-white tracking-tight">CT Drive</span>
+          </Link>
           <nav className="hidden sm:flex items-center gap-6 text-sm text-white/50">
-            <a href="/admin/login" className="hover:text-white transition-colors">Admin</a>
-            <a href="/partner/login" className="hover:text-white transition-colors">Partner</a>
           </nav>
         </header>
 
@@ -171,9 +170,9 @@ export default function BookingPage() {
           <div className="px-6 pt-8 pb-2">
             <div className="max-w-xl mx-auto">
               <div className="flex items-center gap-2 mb-4">
-                {[1,2,3,4].map((n) => (
+                {[1, 2, 3, 4].map((n) => (
                   <div key={n} className="flex-1 flex items-center gap-2">
-                    <div className={`h-1.5 w-full rounded-full transition-all duration-300 ${n <= currentStepNum ? "bg-amber-400" : "bg-white/10"}`} />
+                    <div className={`h-1.5 w-full rounded transition-all duration-300 ${n <= currentStepNum ? "bg-amber-400" : "bg-white/10"}`} />
                   </div>
                 ))}
               </div>
@@ -235,7 +234,7 @@ export default function BookingPage() {
 
         {/* Footer */}
         <footer className="px-6 py-6 text-center text-xs text-white/20 border-t border-white/5">
-          CT Logistics Ltd · Mombasa, Kenya · Liability insulated via tri-party digital agreements
+          CT Drive · Mombasa, Kenya · Liability insulated via tri-party digital agreements
         </footer>
       </div>
     </div>

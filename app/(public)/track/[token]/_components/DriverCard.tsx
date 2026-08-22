@@ -19,7 +19,7 @@ export function DriverCard({ driverName, driverPhone, plateNumber, makeModel, co
     <div className="glass-card p-5 space-y-4">
       <p className="section-label">Your Driver & Vehicle</p>
       <div className="flex items-center gap-4">
-        <div className="h-14 w-14 rounded-2xl bg-amber-400/20 flex items-center justify-center text-2xl flex-shrink-0">
+        <div className="h-14 w-14 rounded bg-amber-400/20 flex items-center justify-center text-2xl flex-shrink-0">
           🧑‍✈️
         </div>
         <div className="flex-1 min-w-0">
@@ -36,7 +36,7 @@ export function DriverCard({ driverName, driverPhone, plateNumber, makeModel, co
       </div>
 
       {plateNumber && (
-        <div className="rounded-xl bg-white/5 border border-white/10 p-4 flex items-center justify-between">
+        <div className="rounded bg-white/5 border border-white/10 p-4 flex items-center justify-between">
           <div>
             <p className="section-label">Vehicle</p>
             <p className="text-white font-semibold mt-1">{makeModel ?? "—"}</p>

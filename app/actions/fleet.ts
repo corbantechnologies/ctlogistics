@@ -1,13 +1,13 @@
-﻿"use server";
+"use server";
 
 import { db } from "@/db";
 import { partners, assets, drivers } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { getAdminSession } from "./auth";
+import { auth } from "@/auth";
 
 export async function createPartner(formData: FormData) {
-  const session = await getAdminSession();
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
   await db.insert(partners).values({
     companyName: formData.get("companyName") as string,
@@ -23,7 +23,7 @@ export async function createPartner(formData: FormData) {
 }
 
 export async function updatePartnerCompliance(partnerId: string, status: "PENDING" | "APPROVED" | "SUSPENDED") {
-  const session = await getAdminSession();
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
   await db.update(partners).set({ complianceStatus: status }).where(eq(partners.id, partnerId));
   revalidatePath("/admin/fleet");
@@ -31,7 +31,7 @@ export async function updatePartnerCompliance(partnerId: string, status: "PENDIN
 }
 
 export async function addAsset(formData: FormData) {
-  const session = await getAdminSession();
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
   await db.insert(assets).values({
     partnerId: formData.get("partnerId") as string,

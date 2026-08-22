@@ -85,13 +85,12 @@ export function SafariStep({ routes, onNext }: Props) {
               key={d.id}
               type="button"
               onClick={() => handleDestSelect(d.id)}
-              className={`rounded-xl border p-3 text-left transition-all duration-150 ${
-                selectedDest === d.id
-                  ? "border-amber-400 bg-amber-400/10"
-                  : d.id === "custom"
+              className={`rounded border p-3 text-left transition-all duration-150 ${selectedDest === d.id
+                ? "border-amber-400 bg-amber-400/10"
+                : d.id === "custom"
                   ? "border-dashed border-white/20 bg-white/3 hover:border-white/30"
                   : "border-white/10 bg-white/5 hover:border-white/20"
-              }`}
+                }`}
             >
               <p className="text-sm font-semibold text-white">{d.label}</p>
               {d.id !== "custom" && (
@@ -103,7 +102,7 @@ export function SafariStep({ routes, onNext }: Props) {
       </div>
 
       {selectedDest === "custom" && (
-        <div className="space-y-3 rounded-xl border border-white/10 bg-white/5 p-4">
+        <div className="space-y-3 rounded border border-white/10 bg-white/5 p-4">
           <label className="block">
             <span className="mb-1 block text-xs font-medium text-white/60 uppercase tracking-wide">Departure Point</span>
             <input type="text" value={origin} onChange={(e) => setOrigin(e.target.value)} placeholder="e.g. JKIA, Mombasa CBD" className="input-field" />
@@ -115,12 +114,12 @@ export function SafariStep({ routes, onNext }: Props) {
         </div>
       )}
 
-      <VehiclePicker value={category} onChange={setCategory} filter={["COMPACT_SUV","PRADO_LUXURY","SAFARI_CRUISER_4X4","TOUR_VAN","MINIBUS_14_SEATER","COASTER_33_SEATER"]} />
+      <VehiclePicker value={category} onChange={setCategory} filter={["COMPACT_SUV", "PRADO_LUXURY", "SAFARI_CRUISER_4X4", "TOUR_VAN", "MINIBUS_14_SEATER", "COASTER_33_SEATER"]} />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">
           <span className="mb-1 block text-xs font-medium text-white/60 uppercase tracking-wide">Departure Date & Time</span>
-          <input type="datetime-local" value={scheduledTime} min={minDateTime.toISOString().slice(0,16)} onChange={(e) => setScheduledTime(e.target.value)} className="input-field" />
+          <input type="datetime-local" value={scheduledTime} min={minDateTime.toISOString().slice(0, 16)} onChange={(e) => setScheduledTime(e.target.value)} className="input-field" />
         </label>
         <label className="block">
           <span className="mb-1 block text-xs font-medium text-white/60 uppercase tracking-wide">Number of Passengers</span>
@@ -131,9 +130,9 @@ export function SafariStep({ routes, onNext }: Props) {
       <label className="flex items-center gap-3 cursor-pointer">
         <div
           onClick={() => setIsEventCharter(!isEventCharter)}
-          className={`relative h-6 w-11 rounded-full transition-colors duration-200 ${isEventCharter ? "bg-amber-400" : "bg-white/20"}`}
+          className={`relative h-6 w-11 rounded transition-colors duration-200 ${isEventCharter ? "bg-amber-400" : "bg-white/20"}`}
         >
-          <span className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${isEventCharter ? "translate-x-5" : "translate-x-0"}`} />
+          <span className={`absolute top-0.5 left-0.5 h-5 w-5 rounded bg-white shadow transition-transform duration-200 ${isEventCharter ? "translate-x-5" : "translate-x-0"}`} />
         </div>
         <span className="text-sm text-white">This is a group event / wedding charter (200+ pax)</span>
       </label>

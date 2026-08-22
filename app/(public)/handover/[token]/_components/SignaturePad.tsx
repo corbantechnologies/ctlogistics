@@ -81,7 +81,7 @@ export function SignaturePad({ onCapture, hasSignature }: Props) {
           </button>
         )}
       </div>
-      <div className={`relative rounded-2xl border-2 overflow-hidden ${hasSignature ? "border-green-400/40" : "border-dashed border-white/20"}`}>
+      <div className={`relative rounded border-2 overflow-hidden ${hasSignature ? "border-green-400/40" : "border-dashed border-white/20"}`}>
         <canvas
           ref={canvasRef}
           width={600}

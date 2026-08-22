@@ -5,11 +5,11 @@ import { useRef, useState } from "react";
 export type PhotoSlot = "front" | "rear" | "leftSide" | "rightSide" | "interior";
 
 const SLOT_LABELS: Record<PhotoSlot, string> = {
-  front:     "Front",
-  rear:      "Rear",
-  leftSide:  "Left Side",
+  front: "Front",
+  rear: "Rear",
+  leftSide: "Left Side",
   rightSide: "Right Side",
-  interior:  "Interior",
+  interior: "Interior",
 };
 
 const SLOT_ICONS: Record<PhotoSlot, string> = {
@@ -50,11 +50,11 @@ export function PhotoCapture({ photos, onCapture, uploading }: Props) {
               <button
                 type="button"
                 onClick={() => inputRefs.current[slot]?.click()}
-                className={`relative w-full aspect-square rounded-2xl border-2 overflow-hidden flex flex-col items-center justify-center gap-1 transition-all duration-150
+                className={`relative w-full aspect-square rounded border-2 overflow-hidden flex flex-col items-center justify-center gap-1 transition-all duration-150
                   ${hasPhoto ? "border-green-400/50 bg-green-400/5" : "border-dashed border-white/20 bg-white/5 hover:border-amber-400/40 hover:bg-amber-400/5"}`}
               >
                 {isUploading ? (
-                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/20 border-t-amber-400" />
+                  <span className="h-5 w-5 animate-spin rounded border-2 border-white/20 border-t-amber-400" />
                 ) : hasPhoto ? (
                   <>
                     <img src={photos[slot]} alt={slot} className="absolute inset-0 h-full w-full object-cover" />

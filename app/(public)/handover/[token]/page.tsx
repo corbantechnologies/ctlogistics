@@ -157,7 +157,7 @@ export default function HandoverPage() {
 
   if (loading) return (
     <div className="min-h-dvh flex items-center justify-center">
-      <span className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-amber-400" />
+      <span className="h-8 w-8 animate-spin rounded border-2 border-white/20 border-t-amber-400" />
     </div>
   );
 
@@ -171,7 +171,7 @@ export default function HandoverPage() {
 
   if (success) return (
     <div className="min-h-dvh flex flex-col items-center justify-center gap-6 px-6 text-center">
-      <div className="h-20 w-20 rounded-full bg-green-400/20 flex items-center justify-center text-4xl">✅</div>
+      <div className="h-20 w-20 rounded bg-green-400/20 flex items-center justify-center text-4xl">✅</div>
       <h1 className="text-3xl font-bold text-white">Handover Complete!</h1>
       <p className="text-white/50">The inspection has been recorded and the client&apos;s signature captured.</p>
       <p className="text-white/30 text-sm">You may close this page.</p>
@@ -181,13 +181,13 @@ export default function HandoverPage() {
   return (
     <div className="min-h-dvh pb-16">
       <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute top-0 right-0 h-64 w-64 bg-amber-500/10 rounded-full blur-[80px]" />
+        <div className="absolute top-0 right-0 h-64 w-64 bg-amber-500/10 rounded blur-[80px]" />
       </div>
 
       <div className="relative z-10 max-w-lg mx-auto px-4 py-6 space-y-6">
         {/* Header */}
         <div className="flex items-center gap-3 pb-2">
-          <div className="h-8 w-8 rounded-lg bg-amber-400 flex items-center justify-center flex-shrink-0">
+          <div className="h-8 w-8 rounded bg-amber-400 flex items-center justify-center flex-shrink-0">
             <span className="text-black font-black text-xs">CT</span>
           </div>
           <div>
@@ -246,7 +246,7 @@ export default function HandoverPage() {
 
           <button type="submit" disabled={!canSubmit || isPending} className="btn-primary w-full flex items-center justify-center gap-2">
             {isPending ? (
-              <><span className="h-4 w-4 animate-spin rounded-full border-2 border-black/30 border-t-black" /> Submitting…</>
+              <><span className="h-4 w-4 animate-spin rounded border-2 border-black/30 border-t-black" /> Submitting…</>
             ) : (
               "Complete Handover ✓"
             )}

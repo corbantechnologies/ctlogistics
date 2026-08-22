@@ -1,17 +1,84 @@
-﻿"use server";
+"use server";
 
 import { db } from "@/db";
 import { routes, routeRateCards } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { getAdminSession } from "./auth";
+import { auth } from "@/auth";
 import { z } from "zod";
 
-export async function createRoute(formData: FormData) {
-  const session = await getAdminSession();
+export async function createRouteWithRateCards(formData: FormData) {
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
 
-  await db.insert(routes).values({
+  try {
+    const routeId = await db.transaction(async (tx) => {
+      // 1. Create the Route
+      const [newRoute] = await tx.insert(routes).values({
+        name: formData.get("name") as string,
+        originZone: formData.get("originZone") as string,
+        destinationZone: formData.get("destinationZone") as string,
+        estimatedDurationMins: parseInt(formData.get("estimatedDurationMins") as string),
+        standardDistanceKm: parseInt(formData.get("standardDistanceKm") as string),
+        tollsIncluded: formData.get("tollsIncluded") === "true",
+        deadheadIncluded: formData.get("deadheadIncluded") === "true",
+        isActive: true,
+      }).returning({ id: routes.id });
+
+      // 2. Parse Rate Cards from formData
+      const categories = [
+        "SALOON", "COMPACT_SUV", "PRADO_LUXURY", "SAFARI_CRUISER_4X4",
+        "TOUR_VAN", "MINIBUS_14_SEATER", "COASTER_33_SEATER", "COACH_50_SEATER"
+      ];
+
+      const rateCardsToInsert = categories.map((cat) => {
+        const defaultBuyRate = parseInt(formData.get(`buy_${cat}`) as string) || 0;
+        const retailSellRate = parseInt(formData.get(`sell_${cat}`) as string) || 0;
+        return {
+          routeId: newRoute.id,
+          vehicleCategory: cat as "SALOON" | "COMPACT_SUV" | "PRADO_LUXURY" | "SAFARI_CRUISER_4X4" | "TOUR_VAN" | "MINIBUS_14_SEATER" | "COASTER_33_SEATER" | "COACH_50_SEATER",
+          defaultBuyRate: defaultBuyRate.toString(),
+          retailSellRate: retailSellRate.toString(),
+        };
+      }).filter(rc => parseInt(rc.defaultBuyRate) > 0 && parseInt(rc.retailSellRate) > 0);
+
+      if (rateCardsToInsert.length > 0) {
+        await tx.insert(routeRateCards).values(rateCardsToInsert);
+      }
+
+      return newRoute.id;
+    });
+
+    revalidatePath("/admin/routes");
+    return { success: true, id: routeId };
+  } catch (error) {
+    console.error("Failed to create route:", error);
+    return { error: "Failed to create corridor and rate cards" };
+  }
+}
+
+export async function toggleRouteStatus(routeId: string, isActive: boolean) {
+  const session = await auth();
+  if (!session) return { error: "Unauthorized" };
+  await db.update(routes).set({ isActive }).where(eq(routes.id, routeId));
+  revalidatePath("/admin/routes");
+  return { success: true };
+}
+
+export async function deleteRoute(routeId: string) {
+  const session = await auth();
+  if (!session) return { error: "Unauthorized" };
+  await db.delete(routes).where(eq(routes.id, routeId));
+  revalidatePath("/admin/routes");
+  return { success: true };
+}
+
+export async function updateRoute(formData: FormData) {
+  const session = await auth();
+  if (!session) return { error: "Unauthorized" };
+
+  const id = formData.get("id") as string;
+  await db.update(routes).set({
     name: formData.get("name") as string,
     originZone: formData.get("originZone") as string,
     destinationZone: formData.get("destinationZone") as string,
@@ -19,22 +86,14 @@ export async function createRoute(formData: FormData) {
     standardDistanceKm: parseInt(formData.get("standardDistanceKm") as string),
     tollsIncluded: formData.get("tollsIncluded") === "true",
     deadheadIncluded: formData.get("deadheadIncluded") === "true",
-    isActive: true,
-  });
-  revalidatePath("/admin/routes");
-  return { success: true };
-}
-
-export async function toggleRouteStatus(routeId: string, isActive: boolean) {
-  const session = await getAdminSession();
-  if (!session) return { error: "Unauthorized" };
-  await db.update(routes).set({ isActive }).where(eq(routes.id, routeId));
+  }).where(eq(routes.id, id));
+  
   revalidatePath("/admin/routes");
   return { success: true };
 }
 
 export async function updateRateCard(formData: FormData) {
-  const session = await getAdminSession();
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
 
   const id = formData.get("id") as string;

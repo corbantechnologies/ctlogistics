@@ -1,11 +1,12 @@
-﻿"use server";
+"use server";
 
 import { z } from "zod";
 import { db } from "@/db";
-import { adminUsers, partnerUsers, partners } from "@/db/schema";
+import { users, partners } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
-import { getAdminSession } from "./auth";
+import { auth } from "@/auth";
+import bcrypt from "bcryptjs";
 
 const createAdminSchema = z.object({
   name: z.string().min(2, "Name required"),
@@ -21,29 +22,23 @@ const createPartnerUserSchema = z.object({
   partnerId: z.string().uuid("Select a valid partner"),
 });
 
-async function hashPassword(plain: string): Promise<string> {
-  try {
-    // Use better-auth's hash utility so passwords work with the login flow
-    const { hashPassword: baHash } = await import("better-auth/crypto");
-    return await baHash(plain);
-  } catch {
-    // Fallback while better-auth is being installed
-    const { createHash } = await import("crypto");
-    return createHash("sha256").update(plain).digest("hex");
-  }
-}
-
 // ── Create admin or dispatcher account ───────────────────────────────────────
 export async function createAdminUser(formData: FormData) {
-  const session = await getAdminSession();
-  if (!session) return { error: "Unauthorized" };
-
-  // Only ADMIN role can create other users
-  const currentUser = await db.query.adminUsers.findFirst({
-    where: eq(adminUsers.id, session.user.id),
+  const existingAdmin = await db.query.users.findFirst({
+    where: eq(users.role, "ADMIN"),
   });
-  if (currentUser?.role !== "ADMIN") {
-    return { error: "Only admins can create user accounts" };
+  const isFirstSetup = !existingAdmin;
+
+  if (!isFirstSetup) {
+    const session = await auth();
+    if (!session) return { error: "Unauthorized" };
+
+    const currentUser = await db.query.users.findFirst({
+      where: eq(users.id, session.user.id),
+    });
+    if (currentUser?.role !== "ADMIN") {
+      return { error: "Only admins can create user accounts" };
+    }
   }
 
   const parsed = createAdminSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -52,14 +47,14 @@ export async function createAdminUser(formData: FormData) {
   const data = parsed.data;
 
   // Check for duplicate
-  const existing = await db.query.adminUsers.findFirst({
-    where: eq(adminUsers.email, data.email),
+  const existing = await db.query.users.findFirst({
+    where: eq(users.email, data.email),
   });
   if (existing) return { error: "An account with this email already exists" };
 
-  const hashedPassword = await hashPassword(data.password);
+  const hashedPassword = await bcrypt.hash(data.password, 12);
 
-  await db.insert(adminUsers).values({
+  await db.insert(users).values({
     name: data.name,
     email: data.email,
     role: data.role,
@@ -73,7 +68,7 @@ export async function createAdminUser(formData: FormData) {
 
 // ── Create partner portal login ───────────────────────────────────────────────
 export async function createPartnerUser(formData: FormData) {
-  const session = await getAdminSession();
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
 
   const parsed = createPartnerUserSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -88,47 +83,53 @@ export async function createPartnerUser(formData: FormData) {
   if (!partner) return { error: "Partner not found" };
 
   // Check for duplicate
-  const existing = await db.query.partnerUsers.findFirst({
-    where: eq(partnerUsers.email, data.email),
+  const existing = await db.query.users.findFirst({
+    where: eq(users.email, data.email),
   });
   if (existing) return { error: "A partner login with this email already exists" };
 
-  const hashedPassword = await hashPassword(data.password);
+  const hashedPassword = await bcrypt.hash(data.password, 12);
 
-  await db.insert(partnerUsers).values({
+  await db.insert(users).values({
     partnerId: data.partnerId,
+    role: "PARTNER",
     name: data.name,
     email: data.email,
     hashedPassword,
     isActive: true,
   });
 
+  const { sendEmail } = await import("@/lib/email");
+  const { PartnerWelcomeEmail } = await import("@/emails/PartnerWelcome");
+  const React = await import("react");
+
+  await sendEmail({
+    to: data.email,
+    subject: "Welcome to CT Drive Partner Network",
+    react: React.createElement(PartnerWelcomeEmail, {
+      partnerName: data.name,
+      loginEmail: data.email,
+      tempPassword: data.password,
+      portalLink: `${process.env.NEXT_PUBLIC_BASE_URL || "https://www.ctdrive.co.ke"}/auth/login`,
+    }),
+  });
+
   revalidatePath("/admin/users");
   return { success: true, message: `Partner login created for ${data.email} (${partner.companyName})` };
 }
 
-// ── Deactivate / reactivate admin ─────────────────────────────────────────────
-export async function toggleAdminUserStatus(userId: string, isActive: boolean) {
-  const session = await getAdminSession();
+// ── Deactivate / reactivate user ─────────────────────────────────────────────
+export async function toggleUserStatus(userId: string, isActive: boolean) {
+  const session = await auth();
   if (!session) return { error: "Unauthorized" };
 
-  const currentUser = await db.query.adminUsers.findFirst({
-    where: eq(adminUsers.id, session.user.id),
+  const currentUser = await db.query.users.findFirst({
+    where: eq(users.id, session.user.id),
   });
   if (currentUser?.role !== "ADMIN") return { error: "Only admins can change user status" };
   if (userId === session.user.id) return { error: "You cannot deactivate your own account" };
 
-  await db.update(adminUsers).set({ isActive, updatedAt: new Date() }).where(eq(adminUsers.id, userId));
-  revalidatePath("/admin/users");
-  return { success: true };
-}
-
-// ── Deactivate / reactivate partner user ──────────────────────────────────────
-export async function togglePartnerUserStatus(userId: string, isActive: boolean) {
-  const session = await getAdminSession();
-  if (!session) return { error: "Unauthorized" };
-
-  await db.update(partnerUsers).set({ isActive, updatedAt: new Date() }).where(eq(partnerUsers.id, userId));
+  await db.update(users).set({ isActive, updatedAt: new Date() }).where(eq(users.id, userId));
   revalidatePath("/admin/users");
   return { success: true };
 }

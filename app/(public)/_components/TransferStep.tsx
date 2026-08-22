@@ -82,11 +82,10 @@ export function TransferStep({ routes, onNext }: Props) {
               key={r.id}
               type="button"
               onClick={() => handleRouteSelect(r.id)}
-              className={`rounded-xl border p-3 text-left transition-all duration-150 ${
-                routeId === r.id
+              className={`rounded border p-3 text-left transition-all duration-150 ${routeId === r.id
                   ? "border-amber-400 bg-amber-400/10"
                   : "border-white/10 bg-white/5 hover:border-white/20"
-              }`}
+                }`}
             >
               <p className="text-sm font-semibold text-white">{r.name}</p>
               <p className="text-xs text-white/40 mt-0.5">
@@ -97,11 +96,10 @@ export function TransferStep({ routes, onNext }: Props) {
           <button
             type="button"
             onClick={() => handleRouteSelect("custom")}
-            className={`rounded-xl border p-3 text-left transition-all duration-150 ${
-              isCustom
+            className={`rounded border p-3 text-left transition-all duration-150 ${isCustom
                 ? "border-amber-400 bg-amber-400/10"
                 : "border-dashed border-white/20 bg-white/3 hover:border-white/30"
-            }`}
+              }`}
           >
             <p className="text-sm font-semibold text-white">Custom Route</p>
             <p className="text-xs text-white/40 mt-0.5">Enter your own origin & destination</p>
@@ -110,7 +108,7 @@ export function TransferStep({ routes, onNext }: Props) {
       </div>
 
       {isCustom && (
-        <div className="space-y-3 rounded-xl border border-white/10 bg-white/5 p-4">
+        <div className="space-y-3 rounded border border-white/10 bg-white/5 p-4">
           <label className="block">
             <span className="mb-1 block text-xs font-medium text-white/60 uppercase tracking-wide">From</span>
             <input type="text" value={origin} onChange={(e) => setOrigin(e.target.value)} placeholder="e.g. Mombasa CBD" className="input-field" />
@@ -126,11 +124,11 @@ export function TransferStep({ routes, onNext }: Props) {
         </div>
       )}
 
-      <VehiclePicker value={category} onChange={setCategory} filter={["SALOON","COMPACT_SUV","PRADO_LUXURY","TOUR_VAN","MINIBUS_14_SEATER","COASTER_33_SEATER","COACH_50_SEATER"]} />
+      <VehiclePicker value={category} onChange={setCategory} filter={["SALOON", "COMPACT_SUV", "PRADO_LUXURY", "TOUR_VAN", "MINIBUS_14_SEATER", "COASTER_33_SEATER", "COACH_50_SEATER"]} />
 
       <label className="block">
         <span className="mb-1 block text-xs font-medium text-white/60 uppercase tracking-wide">Departure Date & Time</span>
-        <input type="datetime-local" value={scheduledTime} min={minDateTime.toISOString().slice(0,16)} onChange={(e) => setScheduledTime(e.target.value)} className="input-field" />
+        <input type="datetime-local" value={scheduledTime} min={minDateTime.toISOString().slice(0, 16)} onChange={(e) => setScheduledTime(e.target.value)} className="input-field" />
       </label>
 
       <button
