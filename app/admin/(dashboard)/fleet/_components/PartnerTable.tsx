@@ -82,9 +82,9 @@ export function PartnerTable({ partners }: Props) {
                   onChange={(e) => handleComplianceChange(partner.id, e.target.value as any)}
                   disabled={isPending}
                   className="text-xs rounded bg-transparent border border-white/10 px-2 py-1 text-white">
-                  <option value="PENDING">Pending</option>
-                  <option value="APPROVED">Approved</option>
-                  <option value="SUSPENDED">Suspended</option>
+                  <option className="bg-slate-900" value="PENDING">Pending</option>
+                  <option className="bg-slate-900" value="APPROVED">Approved</option>
+                  <option className="bg-slate-900" value="SUSPENDED">Suspended</option>
                 </select>
                 <span className={`badge ${COMPLIANCE_STYLES[partner.complianceStatus]}`}>{partner.complianceStatus}</span>
                 <button onClick={() => setExpanded(expanded === partner.id ? null : partner.id)} className="btn-ghost py-1.5 px-3 text-xs">

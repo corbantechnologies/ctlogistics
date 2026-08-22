@@ -16,10 +16,19 @@ import * as React from "react";
 export async function authenticate(formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  const redirectTo = formData.get("next") as string || "/";
+  const redirectTo = formData.get("next") as string;
 
   if (!email || !password) {
     return { error: "Email and password are required" };
+  }
+
+  // Look up user by email to determine role for post-login redirect
+  const user = await db.query.users.findFirst({
+    where: eq(users.email, email),
+  });
+
+  if (!user || !user.isActive) {
+    return { error: "Invalid credentials" };
   }
 
   try {
@@ -34,15 +43,13 @@ export async function authenticate(formData: FormData) {
     }
     throw error;
   }
-  
-  let finalRedirect = redirectTo;
-  if (finalRedirect === "/") {
-    const session = await auth();
-    if (session) {
-      finalRedirect = session.user.role === "PARTNER" ? "/partner" : "/admin";
-    }
+
+  // Determine final redirect URL based on role if next param wasn't specified
+  let finalRedirect = redirectTo && redirectTo !== "/" ? redirectTo : null;
+  if (!finalRedirect) {
+    finalRedirect = user.role === "PARTNER" ? "/partner" : "/admin";
   }
-  
+
   redirect(finalRedirect);
 }
 
