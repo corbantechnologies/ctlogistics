@@ -35,7 +35,15 @@ export async function authenticate(formData: FormData) {
     throw error;
   }
   
-  redirect(redirectTo);
+  let finalRedirect = redirectTo;
+  if (finalRedirect === "/") {
+    const session = await auth();
+    if (session) {
+      finalRedirect = session.user.role === "PARTNER" ? "/partner" : "/admin";
+    }
+  }
+  
+  redirect(finalRedirect);
 }
 
 export async function logOut() {

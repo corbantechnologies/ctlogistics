@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { AssignmentDrawer } from "./AssignmentDrawer";
@@ -23,11 +23,11 @@ export function BookingKanban({ bookings, partners }: Props) {
 
   return (
     <>
-      <div className="flex gap-4 overflow-x-auto pb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {COLUMNS.map((col) => {
           const colBookings = bookings.filter((b) => b.status === col.status);
           return (
-            <div key={col.status} className="flex-shrink-0 w-72 space-y-3">
+            <div key={col.status} className="space-y-3">
               <div className="flex items-center justify-between px-1">
                 <span className={`badge ${col.cls} text-xs`}>{col.label}</span>
                 <span className="text-xs text-white/30">{colBookings.length}</span>
