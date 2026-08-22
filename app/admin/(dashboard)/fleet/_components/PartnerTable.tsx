@@ -67,7 +67,7 @@ export function PartnerTable({ partners }: Props) {
           <div key={partner.id} className="glass-card overflow-hidden">
             <div className="flex flex-wrap items-center justify-between gap-4 p-5">
               <div className="flex items-center gap-4">
-                <div className="h-10 w-10 rounded-xl bg-white/10 flex items-center justify-center text-lg flex-shrink-0">🏢</div>
+                <div className="h-10 w-10 rounded bg-white/10 flex items-center justify-center text-lg flex-shrink-0">🏢</div>
                 <div>
                   <p className="font-semibold text-white">{partner.companyName}</p>
                   <p className="text-sm text-white/40">{partner.contactName} · {partner.phone}</p>
@@ -81,7 +81,7 @@ export function PartnerTable({ partners }: Props) {
                 <select value={partner.complianceStatus}
                   onChange={(e) => handleComplianceChange(partner.id, e.target.value as any)}
                   disabled={isPending}
-                  className="text-xs rounded-lg bg-transparent border border-white/10 px-2 py-1 text-white">
+                  className="text-xs rounded bg-transparent border border-white/10 px-2 py-1 text-white">
                   <option value="PENDING">Pending</option>
                   <option value="APPROVED">Approved</option>
                   <option value="SUSPENDED">Suspended</option>
@@ -106,9 +106,9 @@ export function PartnerTable({ partners }: Props) {
                         <td className="text-white/50 text-xs">{a.seatingCapacity}</td>
                         <td className="text-xs">
                           {a.psvInsuranceExpiry ? (
-                            <span className="text-blue-400">PSV {new Date(a.psvInsuranceExpiry).toLocaleDateString("en-KE", {day:"numeric",month:"short",year:"numeric"})}</span>
+                            <span className="text-blue-400">PSV {new Date(a.psvInsuranceExpiry).toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" })}</span>
                           ) : a.comprehensiveInsuranceExpiry ? (
-                            <span className="text-white/40">Comp {new Date(a.comprehensiveInsuranceExpiry).toLocaleDateString("en-KE", {day:"numeric",month:"short",year:"numeric"})}</span>
+                            <span className="text-white/40">Comp {new Date(a.comprehensiveInsuranceExpiry).toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" })}</span>
                           ) : <span className="text-red-400">Not set</span>}
                         </td>
                         <td>{a.hasGpsTracker ? <span className="text-green-400 text-xs">✓ GPS</span> : <span className="text-white/20 text-xs">—</span>}</td>

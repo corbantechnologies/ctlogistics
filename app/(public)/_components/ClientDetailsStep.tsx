@@ -124,7 +124,7 @@ export function ClientDetailsStep({ onSubmit, isSubmitting }: Props) {
       >
         {isSubmitting ? (
           <>
-            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+            <span className="h-4 w-4 animate-spin rounded border-2 border-white/30 border-t-white" />
             Confirming Booking…
           </>
         ) : (

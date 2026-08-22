@@ -133,16 +133,16 @@ export default function BookingPage() {
     <div className="min-h-dvh relative overflow-hidden">
       {/* Background gradient */}
       <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute -top-40 -right-40 h-[600px] w-[600px] rounded-full bg-amber-500/10 blur-[120px]" />
-        <div className="absolute -bottom-40 -left-20 h-[500px] w-[500px] rounded-full bg-blue-900/20 blur-[100px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[800px] rounded-full bg-amber-900/5 blur-[80px]" />
+        <div className="absolute -top-40 -right-40 h-[600px] w-[600px] rounded bg-amber-500/10 blur-[120px]" />
+        <div className="absolute -bottom-40 -left-20 h-[500px] w-[500px] rounded bg-blue-900/20 blur-[100px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[400px] w-[800px] rounded bg-amber-900/5 blur-[80px]" />
       </div>
 
       <div className="relative z-10 flex min-h-dvh flex-col">
         {/* Header */}
         <header className="flex items-center justify-between px-6 py-5 border-b border-white/5">
           <Link href="/" className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-amber-400 flex items-center justify-center">
+            <div className="h-8 w-8 rounded bg-amber-400 flex items-center justify-center">
               <span className="text-black font-black text-xs">CT</span>
             </div>
             <span className="font-bold text-white tracking-tight">CT Drive</span>
@@ -170,9 +170,9 @@ export default function BookingPage() {
           <div className="px-6 pt-8 pb-2">
             <div className="max-w-xl mx-auto">
               <div className="flex items-center gap-2 mb-4">
-                {[1,2,3,4].map((n) => (
+                {[1, 2, 3, 4].map((n) => (
                   <div key={n} className="flex-1 flex items-center gap-2">
-                    <div className={`h-1.5 w-full rounded-full transition-all duration-300 ${n <= currentStepNum ? "bg-amber-400" : "bg-white/10"}`} />
+                    <div className={`h-1.5 w-full rounded transition-all duration-300 ${n <= currentStepNum ? "bg-amber-400" : "bg-white/10"}`} />
                   </div>
                 ))}
               </div>

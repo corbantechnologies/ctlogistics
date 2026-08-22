@@ -27,7 +27,7 @@ export default async function PartnerDriversPage() {
             return (
               <div key={driver.id} className="glass-card p-5 space-y-4">
                 <div className="flex items-start gap-4">
-                  <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center text-2xl flex-shrink-0">
+                  <div className="h-12 w-12 rounded bg-white/10 flex items-center justify-center text-2xl flex-shrink-0">
                     🧑‍✈️
                   </div>
                   <div className="flex-1 min-w-0">
@@ -47,13 +47,13 @@ export default async function PartnerDriversPage() {
                   <div>
                     <p className="text-white/30">License Expiry</p>
                     <p className={`mt-0.5 font-medium ${daysLeft !== null && daysLeft < 30 ? "text-red-400" : "text-white/70"}`}>
-                      {licenseExpiry ? licenseExpiry.toLocaleDateString("en-KE", {day:"numeric",month:"short",year:"numeric"}) : "Not set"}
+                      {licenseExpiry ? licenseExpiry.toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" }) : "Not set"}
                     </p>
                   </div>
                 </div>
 
                 {daysLeft !== null && daysLeft < 30 && (
-                  <div className="rounded-xl bg-red-400/10 border border-red-400/20 px-3 py-2 text-xs text-red-400">
+                  <div className="rounded bg-red-400/10 border border-red-400/20 px-3 py-2 text-xs text-red-400">
                     ⚠️ License expires in {daysLeft} day{daysLeft !== 1 ? "s" : ""}
                   </div>
                 )}

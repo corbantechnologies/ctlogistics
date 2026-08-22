@@ -16,8 +16,8 @@ export function CorridorTable({ routes }: Props) {
   }
 
   function handleDeleteConfirm(routeId: string) {
-    startTransition(async () => { 
-      await deleteRoute(routeId); 
+    startTransition(async () => {
+      await deleteRoute(routeId);
       setConfirmDelete(null);
     });
   }
@@ -28,7 +28,7 @@ export function CorridorTable({ routes }: Props) {
         <div key={route.id} className="glass-card overflow-hidden">
           <div className="flex items-center justify-between p-5">
             <div className="flex items-center gap-3">
-              <span className={`h-2 w-2 rounded-full ${route.isActive ? "bg-green-400" : "bg-white/20"}`} />
+              <span className={`h-2 w-2 rounded ${route.isActive ? "bg-green-400" : "bg-white/20"}`} />
               <div>
                 <p className="font-semibold text-white">{route.name}</p>
                 <p className="text-xs text-white/40 mt-0.5">
@@ -42,7 +42,7 @@ export function CorridorTable({ routes }: Props) {
               <button
                 onClick={() => handleToggle(route.id, route.isActive)}
                 disabled={isPending}
-                className={`text-xs rounded-lg px-3 py-1.5 font-medium transition-colors ${route.isActive ? "bg-green-400/10 text-green-400 hover:bg-red-400/10 hover:text-red-400" : "bg-white/10 text-white/40 hover:bg-green-400/10 hover:text-green-400"}`}
+                className={`text-xs rounded px-3 py-1.5 font-medium transition-colors ${route.isActive ? "bg-green-400/10 text-green-400 hover:bg-red-400/10 hover:text-red-400" : "bg-white/10 text-white/40 hover:bg-green-400/10 hover:text-green-400"}`}
               >
                 {route.isActive ? "Active" : "Inactive"}
               </button>
@@ -55,7 +55,7 @@ export function CorridorTable({ routes }: Props) {
               <button
                 onClick={() => setConfirmDelete(route.id)}
                 disabled={isPending}
-                className="text-xs rounded-lg px-3 py-1.5 font-medium transition-colors bg-white/5 text-white/40 hover:bg-red-500/20 hover:text-red-400"
+                className="text-xs rounded px-3 py-1.5 font-medium transition-colors bg-white/5 text-white/40 hover:bg-red-500/20 hover:text-red-400"
                 title="Soft delete (suspend) corridor"
               >
                 Delete
@@ -99,16 +99,16 @@ export function CorridorTable({ routes }: Props) {
               Are you sure you want to suspend this corridor? Booking history will remain intact, but it will no longer be available for new bookings.
             </p>
             <div className="flex justify-end gap-3 mt-6">
-              <button 
-                onClick={() => setConfirmDelete(null)} 
-                disabled={isPending} 
+              <button
+                onClick={() => setConfirmDelete(null)}
+                disabled={isPending}
                 className="btn-ghost px-4 py-2 text-sm"
               >
                 Cancel
               </button>
-              <button 
-                onClick={() => handleDeleteConfirm(confirmDelete)} 
-                disabled={isPending} 
+              <button
+                onClick={() => handleDeleteConfirm(confirmDelete)}
+                disabled={isPending}
                 className="btn-primary px-4 py-2 text-sm bg-red-500/20 border-red-500/30 text-red-400 hover:bg-red-500/30"
               >
                 {isPending ? "Suspending..." : "Yes, Suspend"}

@@ -33,7 +33,7 @@ export function SetupForm() {
   return (
     <form onSubmit={handleSubmit} className="glass-card p-7 space-y-5">
       {error && (
-        <div className="rounded-xl bg-red-400/10 border border-red-400/20 px-4 py-3 text-sm text-red-400">{error}</div>
+        <div className="rounded bg-red-400/10 border border-red-400/20 px-4 py-3 text-sm text-red-400">{error}</div>
       )}
 
       <label className="block">

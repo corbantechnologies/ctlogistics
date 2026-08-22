@@ -51,7 +51,7 @@ export default async function PartnerFleetPage() {
                   <div>
                     <p className="text-white/30">Insurance</p>
                     <p className={`mt-0.5 font-medium ${daysLeft !== null && daysLeft < 30 ? "text-red-400" : "text-white/70"}`}>
-                      {psvExpiry ? "PSV" : "Comp"} · {expiryDate ? expiryDate.toLocaleDateString("en-KE", {day:"numeric",month:"short",year:"2-digit"}) : "Not set"}
+                      {psvExpiry ? "PSV" : "Comp"} · {expiryDate ? expiryDate.toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "2-digit" }) : "Not set"}
                     </p>
                   </div>
                   <div>
@@ -63,7 +63,7 @@ export default async function PartnerFleetPage() {
                 </div>
 
                 {daysLeft !== null && daysLeft < 30 && (
-                  <div className="rounded-xl bg-red-400/10 border border-red-400/20 px-3 py-2 text-xs text-red-400">
+                  <div className="rounded bg-red-400/10 border border-red-400/20 px-3 py-2 text-xs text-red-400">
                     ⚠️ Insurance expires in {daysLeft} day{daysLeft !== 1 ? "s" : ""}
                   </div>
                 )}

@@ -23,13 +23,13 @@ export default async function SetupPage() {
   return (
     <div className="min-h-dvh flex items-center justify-center px-4 relative">
       <div className="pointer-events-none fixed inset-0">
-        <div className="absolute top-0 right-0 h-96 w-96 bg-amber-500/8 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 left-0 h-96 w-96 bg-blue-900/15 rounded-full blur-[80px]" />
+        <div className="absolute top-0 right-0 h-96 w-96 bg-amber-500/8 rounded blur-[100px]" />
+        <div className="absolute bottom-0 left-0 h-96 w-96 bg-blue-900/15 rounded blur-[80px]" />
       </div>
 
       <div className="relative z-10 w-full max-w-md space-y-8">
         <div className="text-center">
-          <div className="mx-auto mb-4 h-12 w-12 rounded-2xl bg-amber-400 flex items-center justify-center">
+          <div className="mx-auto mb-4 h-12 w-12 rounded bg-amber-400 flex items-center justify-center">
             <span className="text-black font-black text-lg">CT</span>
           </div>
           <h1 className="text-2xl font-bold text-white">First-Time Setup</h1>

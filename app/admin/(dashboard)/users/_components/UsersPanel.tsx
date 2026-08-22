@@ -82,7 +82,7 @@ export function UsersPanel({ admins, partnerUsers, partners }: Props) {
     <div className="space-y-5">
       {/* Feedback banner */}
       {feedback && (
-        <div className={`rounded-xl border px-4 py-3 text-sm flex items-center justify-between
+        <div className={`rounded border px-4 py-3 text-sm flex items-center justify-between
           ${feedback.type === "success" ? "bg-green-400/10 border-green-400/20 text-green-400" : "bg-red-400/10 border-red-400/20 text-red-400"}`}>
           <span>{feedback.type === "success" ? "✓ " : "✕ "}{feedback.msg}</span>
           <button onClick={() => setFeedback(null)} className="text-xs opacity-50 hover:opacity-100">Dismiss</button>
@@ -91,7 +91,7 @@ export function UsersPanel({ admins, partnerUsers, partners }: Props) {
 
       {/* Tab bar */}
       <div className="flex items-center justify-between">
-        <div className="flex rounded-xl overflow-hidden border border-white/10">
+        <div className="flex rounded overflow-hidden border border-white/10">
           {(["admin", "partner"] as const).map((tab) => (
             <button
               key={tab}
@@ -137,7 +137,7 @@ export function UsersPanel({ admins, partnerUsers, partners }: Props) {
               <PasswordField name="password" />
             </label>
           </div>
-          <div className="rounded-xl bg-amber-400/8 border border-amber-400/15 px-4 py-3 text-xs text-amber-300">
+          <div className="rounded bg-amber-400/8 border border-amber-400/15 px-4 py-3 text-xs text-amber-300">
             💡 Share the password securely (e.g. WhatsApp + delete after). A password-change flow will be added in Phase 2.
           </div>
           <div className="flex gap-3">
@@ -178,7 +178,7 @@ export function UsersPanel({ admins, partnerUsers, partners }: Props) {
               <PasswordField name="password" />
             </label>
           </div>
-          <div className="rounded-xl bg-blue-400/8 border border-blue-400/15 px-4 py-3 text-xs text-blue-300">
+          <div className="rounded bg-blue-400/8 border border-blue-400/15 px-4 py-3 text-xs text-blue-300">
             💡 Partner will log in at <strong>/partner/login</strong> and only see their own fleet and assigned jobs.
           </div>
           <div className="flex gap-3">

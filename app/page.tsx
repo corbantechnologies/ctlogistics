@@ -75,15 +75,15 @@ export default function LandingPage() {
 
       {/* ── BACKGROUND GLOWS ─────────────────────────────── */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <div className="absolute -top-32 right-0 h-[700px] w-[700px] rounded-full bg-amber-500/8 blur-[140px]" />
-        <div className="absolute top-1/2 -left-40 h-[500px] w-[500px] rounded-full bg-blue-900/20 blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 h-[400px] w-[600px] rounded-full bg-green-900/10 blur-[100px]" />
+        <div className="absolute -top-32 right-0 h-[700px] w-[700px] rounded bg-amber-500/8 blur-[140px]" />
+        <div className="absolute top-1/2 -left-40 h-[500px] w-[500px] rounded bg-blue-900/20 blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 h-[400px] w-[600px] rounded bg-green-900/10 blur-[100px]" />
       </div>
 
       {/* ── NAVBAR ───────────────────────────────────────── */}
       <header className="relative z-20 flex items-center justify-between px-6 md:px-12 py-5 border-b border-white/5">
         <Link href="/" className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-xl bg-amber-400 flex items-center justify-center shadow-lg shadow-amber-400/30">
+          <div className="h-9 w-9 rounded bg-amber-400 flex items-center justify-center shadow-lg shadow-amber-400/30">
             <span className="text-black font-black text-sm">CT</span>
           </div>
           <div>
@@ -105,8 +105,8 @@ export default function LandingPage() {
 
         {/* ── HERO ─────────────────────────────────────────── */}
         <section className="px-6 md:px-12 pt-20 pb-16 text-center max-w-5xl mx-auto">
-          <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/20 bg-amber-400/8 px-4 py-1.5 text-xs font-medium text-amber-300 mb-8">
-            <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
+          <div className="inline-flex items-center gap-2 rounded border border-amber-400/20 bg-amber-400/8 px-4 py-1.5 text-xs font-medium text-amber-300 mb-8">
+            <span className="h-1.5 w-1.5 rounded bg-amber-400 animate-pulse" />
             Serving Mombasa, Nairobi & the Kenyan Coast
           </div>
 
@@ -158,11 +158,11 @@ export default function LandingPage() {
             {SERVICES.map((s) => (
               <div
                 key={s.title}
-                className={`relative rounded-2xl border ${s.border} bg-gradient-to-br ${s.color} p-7 flex flex-col gap-5 group hover:scale-[1.02] transition-transform duration-200`}
+                className={`relative rounded border ${s.border} bg-gradient-to-br ${s.color} p-7 flex flex-col gap-5 group hover:scale-[1.02] transition-transform duration-200`}
               >
                 <div className="flex items-start justify-between">
                   <span className="text-4xl">{s.icon}</span>
-                  <span className={`text-xs font-semibold rounded-full px-3 py-1 ${s.badge}`}>
+                  <span className={`text-xs font-semibold rounded px-3 py-1 ${s.badge}`}>
                     {s.subtitle}
                   </span>
                 </div>
@@ -173,7 +173,7 @@ export default function LandingPage() {
                 <ul className="space-y-2 mt-auto">
                   {s.features.map((f) => (
                     <li key={f} className="flex items-center gap-2 text-sm text-white/60">
-                      <span className="h-1.5 w-1.5 rounded-full bg-white/30 flex-shrink-0" />
+                      <span className="h-1.5 w-1.5 rounded bg-white/30 flex-shrink-0" />
                       {f}
                     </li>
                   ))}
@@ -203,7 +203,7 @@ export default function LandingPage() {
                     <div className="hidden md:block absolute top-8 left-full w-full h-px bg-gradient-to-r from-white/10 to-transparent z-0" />
                   )}
                   <div className="relative z-10 space-y-4">
-                    <div className="h-14 w-14 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center">
+                    <div className="h-14 w-14 rounded bg-amber-400/10 border border-amber-400/20 flex items-center justify-center">
                       <span className="font-black text-amber-400 text-lg">{step.step}</span>
                     </div>
                     <h3 className="text-lg font-bold text-white">{step.title}</h3>
@@ -297,9 +297,9 @@ export default function LandingPage() {
                 <p className="text-xs text-white/40 mb-2">Handover ✓</p>
                 <div className="grid grid-cols-3 gap-1">
                   {["🔴", "🟡", "🟢", "🔵", "⚪"].map((c, i) => (
-                    <div key={i} className="aspect-square rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs">{c}</div>
+                    <div key={i} className="aspect-square rounded bg-white/5 border border-white/10 flex items-center justify-center text-xs">{c}</div>
                   ))}
-                  <div className="aspect-square rounded-lg bg-green-400/20 border border-green-400/30 flex items-center justify-center text-xs">✓</div>
+                  <div className="aspect-square rounded bg-green-400/20 border border-green-400/30 flex items-center justify-center text-xs">✓</div>
                 </div>
               </div>
             </div>
@@ -332,7 +332,7 @@ export default function LandingPage() {
       <footer className="border-t border-white/5 px-6 md:px-12 py-10">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-amber-400 flex items-center justify-center">
+            <div className="h-8 w-8 rounded bg-amber-400 flex items-center justify-center">
               <span className="text-black font-black text-xs">CT</span>
             </div>
             <div>

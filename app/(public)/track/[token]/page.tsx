@@ -61,15 +61,15 @@ export default async function TrackPage({ params }: Props) {
     <div className="min-h-dvh">
       {/* Background */}
       <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute top-0 right-0 h-96 w-96 bg-amber-500/8 rounded-full blur-[100px]" />
-        <div className="absolute bottom-0 left-0 h-80 w-80 bg-blue-900/15 rounded-full blur-[80px]" />
+        <div className="absolute top-0 right-0 h-96 w-96 bg-amber-500/8 rounded blur-[100px]" />
+        <div className="absolute bottom-0 left-0 h-80 w-80 bg-blue-900/15 rounded blur-[80px]" />
       </div>
 
       <div className="relative z-10 max-w-lg mx-auto px-4 py-8 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-lg bg-amber-400 flex items-center justify-center">
+            <div className="h-7 w-7 rounded bg-amber-400 flex items-center justify-center">
               <span className="text-black font-black text-xs">CT</span>
             </div>
             <span className="text-sm font-semibold text-white/70">CT Drive</span>

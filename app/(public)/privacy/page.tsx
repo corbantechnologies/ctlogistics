@@ -37,8 +37,8 @@ export default function PrivacyPage() {
     <div className="relative min-h-dvh py-12 px-6 md:px-12">
       {/* Background glow */}
       <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute top-0 right-0 h-96 w-96 bg-amber-500/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 h-80 w-80 bg-blue-900/10 rounded-full blur-[100px]" />
+        <div className="absolute top-0 right-0 h-96 w-96 bg-amber-500/5 rounded blur-[120px]" />
+        <div className="absolute bottom-0 left-0 h-80 w-80 bg-blue-900/10 rounded blur-[100px]" />
       </div>
 
       <div className="relative z-10 max-w-3xl mx-auto space-y-8">

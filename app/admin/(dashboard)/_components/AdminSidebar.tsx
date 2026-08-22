@@ -21,7 +21,7 @@ export function AdminSidebar({ role, userName }: Props) {
     <aside className="flex w-60 flex-shrink-0 flex-col border-r border-white/8 bg-[#0d1120]">
       {/* Logo */}
       <div className="flex items-center gap-3 px-5 py-5 border-b border-white/8">
-        <div className="h-8 w-8 rounded-xl bg-amber-400 flex items-center justify-center flex-shrink-0">
+        <div className="h-8 w-8 rounded bg-amber-400 flex items-center justify-center flex-shrink-0">
           <span className="text-black font-black text-xs">CT</span>
         </div>
         <div>
@@ -48,7 +48,7 @@ export function AdminSidebar({ role, userName }: Props) {
       {/* User */}
       <div className="border-t border-white/8 p-4 space-y-3">
         <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center text-sm">
+          <div className="h-8 w-8 rounded bg-white/10 flex items-center justify-center text-sm">
             {userName?.[0]?.toUpperCase() ?? "A"}
           </div>
           <div className="min-w-0">

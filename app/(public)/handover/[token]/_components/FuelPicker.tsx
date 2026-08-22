@@ -17,7 +17,7 @@ export function FuelPicker({ value, onChange }: Props) {
             key={level}
             type="button"
             onClick={() => onChange(level)}
-            className={`flex-1 rounded-xl border py-3 text-center text-sm font-semibold transition-all duration-150
+            className={`flex-1 rounded border py-3 text-center text-sm font-semibold transition-all duration-150
               ${value === level ? "border-amber-400 bg-amber-400/15 text-amber-300" : "border-white/10 bg-white/5 text-white/50 hover:border-white/20"}`}
           >
             {level}
@@ -25,9 +25,9 @@ export function FuelPicker({ value, onChange }: Props) {
         ))}
       </div>
       {/* Visual gauge */}
-      <div className="mt-3 h-3 w-full rounded-full bg-white/10 overflow-hidden">
+      <div className="mt-3 h-3 w-full rounded bg-white/10 overflow-hidden">
         <div
-          className="h-full rounded-full transition-all duration-500"
+          className="h-full rounded transition-all duration-500"
           style={{
             width: `${FILL[value]}%`,
             background: FILL[value] <= 25 ? "#ef4444" : FILL[value] <= 50 ? "#f59e0b" : "#22c55e",

@@ -85,7 +85,7 @@ export function AssignmentDrawer({ booking, partners, onClose }: Props) {
               <div>
                 <p className="section-label">Departure</p>
                 <p className="text-sm text-white mt-1">
-                  {new Date(leg.scheduledTime).toLocaleDateString("en-KE", { day:"numeric", month:"short", hour:"2-digit", minute:"2-digit" })}
+                  {new Date(leg.scheduledTime).toLocaleDateString("en-KE", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
                 </p>
               </div>
             </>
@@ -110,7 +110,7 @@ export function AssignmentDrawer({ booking, partners, onClose }: Props) {
               <div className="space-y-2">
                 {partners.map((p) => (
                   <button key={p.id} onClick={() => { setSelectedPartnerId(p.id); setSelectedAssetId(""); setSelectedDriverId(""); }}
-                    className={`w-full rounded-xl border p-3 text-left transition-all ${selectedPartnerId === p.id ? "border-amber-400 bg-amber-400/10" : "border-white/10 bg-white/5 hover:border-white/20"}`}>
+                    className={`w-full rounded border p-3 text-left transition-all ${selectedPartnerId === p.id ? "border-amber-400 bg-amber-400/10" : "border-white/10 bg-white/5 hover:border-white/20"}`}>
                     <p className="text-sm font-semibold text-white">{p.companyName}</p>
                     <p className="text-xs text-white/40">{p.assets?.length ?? 0} vehicles · {p.drivers?.length ?? 0} drivers</p>
                   </button>
@@ -126,7 +126,7 @@ export function AssignmentDrawer({ booking, partners, onClose }: Props) {
                   <div className="space-y-2">
                     {selectedPartner.assets?.map((a: any) => (
                       <button key={a.id} onClick={() => setSelectedAssetId(a.id)}
-                        className={`w-full rounded-xl border p-3 text-left transition-all ${selectedAssetId === a.id ? "border-amber-400 bg-amber-400/10" : "border-white/10 bg-white/5"}`}>
+                        className={`w-full rounded border p-3 text-left transition-all ${selectedAssetId === a.id ? "border-amber-400 bg-amber-400/10" : "border-white/10 bg-white/5"}`}>
                         <p className="text-sm text-white font-mono">{a.plateNumber}</p>
                         <p className="text-xs text-white/40">{a.makeModel} · {a.color} · {a.category}</p>
                       </button>
@@ -140,7 +140,7 @@ export function AssignmentDrawer({ booking, partners, onClose }: Props) {
                   <div className="space-y-2">
                     {selectedPartner.drivers?.map((d: any) => (
                       <button key={d.id} onClick={() => setSelectedDriverId(d.id)}
-                        className={`w-full rounded-xl border p-3 text-left transition-all ${selectedDriverId === d.id ? "border-amber-400 bg-amber-400/10" : "border-white/10 bg-white/5"}`}>
+                        className={`w-full rounded border p-3 text-left transition-all ${selectedDriverId === d.id ? "border-amber-400 bg-amber-400/10" : "border-white/10 bg-white/5"}`}>
                         <p className="text-sm text-white font-semibold">{d.name}</p>
                         <p className="text-xs text-white/40">{d.phone}</p>
                       </button>

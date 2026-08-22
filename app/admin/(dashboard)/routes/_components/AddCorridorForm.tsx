@@ -19,7 +19,7 @@ export function AddCorridorForm({ onSuccess, onCancel }: Props) {
     e.preventDefault();
     setError(null);
     const formData = new FormData(e.currentTarget);
-    
+
     // Checkboxes are omitted if unchecked, so we manually set them based on presence
     formData.set("tollsIncluded", formData.get("tollsIncluded") === "on" ? "true" : "false");
     formData.set("deadheadIncluded", formData.get("deadheadIncluded") === "on" ? "true" : "false");
@@ -44,7 +44,7 @@ export function AddCorridorForm({ onSuccess, onCancel }: Props) {
       </div>
 
       {error && (
-        <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-sm mb-6">
+        <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded text-sm mb-6">
           {error}
         </div>
       )}
@@ -53,7 +53,7 @@ export function AddCorridorForm({ onSuccess, onCancel }: Props) {
         {/* Core Details */}
         <div className="space-y-4">
           <h3 className="text-sm font-semibold text-amber-400 uppercase tracking-wider">1. Route Details</h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="md:col-span-3">
               <label className="block text-xs font-medium text-white/60 mb-1.5">Corridor Name</label>
@@ -69,7 +69,7 @@ export function AddCorridorForm({ onSuccess, onCancel }: Props) {
               <label className="block text-xs font-medium text-white/60 mb-1.5">Destination Zone</label>
               <input type="text" name="destinationZone" required placeholder="e.g. Nakuru Town" className="input-field w-full" />
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-medium text-white/60 mb-1.5">Distance (km)</label>
@@ -101,7 +101,7 @@ export function AddCorridorForm({ onSuccess, onCancel }: Props) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {CATEGORIES.map(cat => (
-              <div key={cat} className="bg-white/5 border border-white/10 p-4 rounded-xl flex flex-col gap-3">
+              <div key={cat} className="bg-white/5 border border-white/10 p-4 rounded flex flex-col gap-3">
                 <span className="text-sm font-medium text-white">{VEHICLE_CATEGORY_LABELS[cat]}</span>
                 <div className="flex gap-3">
                   <div className="flex-1">

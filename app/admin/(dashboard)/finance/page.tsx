@@ -17,7 +17,7 @@ export default async function FinancePage() {
   let totalCogs = 0;
 
   const unpaidDeposits = [];
-  
+
   for (const b of allBookings) {
     const sell = parseFloat(b.totalSellAmount) || 0;
     const buy = parseFloat(b.totalBuyAmount) || 0;
@@ -46,7 +46,7 @@ export default async function FinancePage() {
   const partnerLedgers = allPartners.map(p => {
     let totalOwed = 0;
     let completedLegs = 0;
-    
+
     p.assets.forEach(a => {
       a.tripLegs.forEach(leg => {
         if (leg.status === "COMPLETED") {
@@ -164,7 +164,7 @@ export default async function FinancePage() {
           </p>
           <div className="flex flex-wrap gap-3">
             {allAssets.slice(0, 8).map(asset => (
-              <div key={asset.id} className={`border rounded-lg px-4 py-2 ${asset.partner.complianceStatus === 'APPROVED' ? 'border-green-500/20 bg-green-500/5' : 'border-amber-500/20 bg-amber-500/5'}`}>
+              <div key={asset.id} className={`border rounded px-4 py-2 ${asset.partner.complianceStatus === 'APPROVED' ? 'border-green-500/20 bg-green-500/5' : 'border-amber-500/20 bg-amber-500/5'}`}>
                 <p className="text-sm font-bold text-white">{asset.plateNumber}</p>
                 <p className={`text-xs ${asset.partner.complianceStatus === 'APPROVED' ? 'text-green-400' : 'text-amber-400'}`}>
                   {asset.partner.complianceStatus}
