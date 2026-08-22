@@ -96,9 +96,18 @@ export default function LandingPage() {
           <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
           <a href="#fleet" className="hover:text-white transition-colors">Fleet</a>
         </nav>
-        <Link href="/book" className="btn-primary py-2.5 px-5 text-sm">
+        {/* Public online booking temporarily commented out for setup */}
+        {/* <Link href="/book" className="btn-primary py-2.5 px-5 text-sm">
           Book Now
-        </Link>
+        </Link> */}
+        <a 
+          href="https://wa.me/254768978865?text=Hello%20CT%20Drive,%20I%20would%20like%20to%20book%20a%20vehicle." 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="btn-primary py-2.5 px-5 text-sm bg-green-600 hover:bg-green-500 border-none text-white flex items-center gap-2"
+        >
+          <span>💬</span> Book via WhatsApp
+        </a>
       </header>
 
       <main className="relative z-10">
@@ -123,12 +132,21 @@ export default function LandingPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
+            {/* Public online booking temporarily disabled */}
+            {/* <Link
               href="/book"
               className="btn-primary px-8 py-4 text-base w-full sm:w-auto"
             >
               Get an Instant Quote →
-            </Link>
+            </Link> */}
+            <a
+              href="https://wa.me/254768978865?text=Hello%20CT%20Drive,%20I%20would%20like%20to%20get%20a%20quote."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary px-8 py-4 text-base w-full sm:w-auto bg-green-600 hover:bg-green-500 border-none text-white flex items-center justify-center gap-2"
+            >
+              <span>💬</span> Book via WhatsApp (+254 768 978 865) →
+            </a>
             <a
               href="#how-it-works"
               className="btn-ghost px-8 py-4 text-base w-full sm:w-auto"
@@ -178,12 +196,20 @@ export default function LandingPage() {
                     </li>
                   ))}
                 </ul>
-                <Link
+                {/* <Link
                   href="/book"
                   className="mt-2 text-sm font-semibold text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1"
                 >
                   Book this service →
-                </Link>
+                </Link> */}
+                <a
+                  href={`https://wa.me/254768978865?text=Hello%20CT%20Drive,%20I%20am%20interested%20in%20booking%20${encodeURIComponent(s.title)}.`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 text-sm font-semibold text-green-400 hover:text-green-300 transition-colors flex items-center gap-1"
+                >
+                  Inquire via WhatsApp →
+                </a>
               </div>
             ))}
           </div>
@@ -226,8 +252,10 @@ export default function LandingPage() {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {VEHICLES.map((v) => (
-              <Link
-                href="/book"
+              <a
+                href={`https://wa.me/254768978865?text=Hello%20CT%20Drive,%20I%20want%20to%20inquire%20about%20booking%20a%20${encodeURIComponent(v.name)}.`}
+                target="_blank"
+                rel="noopener noreferrer"
                 key={v.name}
                 className="glass-card p-5 flex flex-col gap-3 hover:border-amber-400/30 hover:bg-white/[0.06] transition-all duration-200 group"
               >
@@ -236,7 +264,7 @@ export default function LandingPage() {
                   <p className="font-semibold text-white text-sm group-hover:text-amber-400 transition-colors">{v.name}</p>
                   <p className="text-xs text-white/35 mt-0.5">{v.eg}</p>
                 </div>
-              </Link>
+              </a>
             ))}
           </div>
         </section>
@@ -313,16 +341,24 @@ export default function LandingPage() {
               Ready to Move?
             </h2>
             <p className="text-white/50 text-lg">
-              Get your quote in 60 seconds. No account. No calls. No hidden fees.
+              We are finalizing automated online bookings. Reach out on WhatsApp for instant assistance!
             </p>
-            <Link
+            {/* <Link
               href="/book"
               className="btn-primary inline-flex px-10 py-4 text-lg"
             >
               Book Your Transfer →
-            </Link>
+            </Link> */}
+            <a
+              href="https://wa.me/254768978865?text=Hello%20CT%20Drive,%20I%20would%20like%20to%20book%20a%20transfer."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary inline-flex px-10 py-4 text-lg bg-green-600 hover:bg-green-500 border-none text-white items-center gap-2"
+            >
+              <span>💬</span> Chat on WhatsApp (+254 768 978 865) →
+            </a>
             <p className="text-xs text-white/20 pt-2">
-              Instant quote · 30% deposit to confirm · Balance on completion
+              Direct bookings via WhatsApp · Fast response
             </p>
           </div>
         </section>
@@ -341,7 +377,7 @@ export default function LandingPage() {
             </div>
           </div>
           <nav className="flex flex-wrap justify-center gap-6 text-xs text-white/30">
-            <a href="/book" className="hover:text-white transition-colors">Book a Trip</a>
+            <a href="https://wa.me/254768978865" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Book via WhatsApp</a>
             <a href="/terms" className="hover:text-white transition-colors">Terms</a>
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
           </nav>
