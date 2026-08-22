@@ -47,7 +47,7 @@ const SERVICES = [
 
 const HOW_IT_WORKS = [
   { step: "01", title: "Pick Your Service", desc: "Choose from rental, transfer or safari. Get an instant quote — no account, no fluff." },
-  { step: "02", title: "Confirm Booking", desc: "Enter your details and pay a 30% deposit via M-Pesa or bank transfer. Fully digital." },
+  { step: "02", title: "Confirm Booking", desc: "Enter your details and pay via M-Pesa or bank transfer. Fully digital." },
   { step: "03", title: "Track in Real Time", desc: "Get a magic link to your live tracking page. Driver details, itinerary, and status — all in one place." },
 ];
 

@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms of Service | CT Drive",
@@ -12,11 +12,11 @@ const SECTIONS = [
   },
   {
     title: "2. Booking and Quotes",
-    content: "All quotes provided via the platform are calculated dynamically based on predefined corridors or per-kilometer rates. Quotes are subject to change until a deposit is received and the booking is confirmed. Confirmation of booking requires a 30% security deposit unless otherwise agreed. The remaining balance must be paid 48 hours prior to service execution or as stated on the invoice.",
+    content: "All quotes provided via the platform are calculated dynamically based on predefined corridors or per-kilometer rates. Quotes are subject to change until payment is received and the booking is confirmed. Confirmation of booking requires full payment upon booking unless otherwise agreed.",
   },
   {
     title: "3. Cancellation and Refund Policy",
-    content: "Cancellations made more than 48 hours prior to the scheduled departure time will receive a full refund of the deposit, minus a 10% administrative fee. Cancellations made between 24 and 48 hours prior will forfeit the deposit. Cancellations made within 24 hours of departure will be billed the full amount of the booking.",
+    content: "Cancellations made more than 48 hours prior to the scheduled departure time will receive a full refund minus a 10% administrative fee. Cancellations made between 24 and 48 hours prior will receive a 50% refund. Cancellations made within 24 hours of departure will be non-refundable.",
   },
   {
     title: "4. Liability and Insurance",

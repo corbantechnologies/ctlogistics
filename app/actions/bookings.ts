@@ -108,7 +108,7 @@ export async function createRentalBooking(formData: FormData) {
       clientIdNumber: data.clientIdNumber || null,
       totalSellAmount: quote.sellRate.toString(),
       totalBuyAmount: quote.buyRate.toString(),
-      securityDeposit: (quote.sellRate * 0.3).toFixed(2),
+      securityDeposit: quote.sellRate.toFixed(2),
       rentalStart: start,
       rentalEnd: end,
       deliveryAddress: data.deliveryAddress || null,

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import type { QuoteResult } from "./types";
 
@@ -63,9 +63,9 @@ export function QuoteCard({ quote, isLoading }: Props) {
       </div>
 
       <div className="rounded bg-amber-400/10 border border-amber-400/20 p-3 text-xs text-amber-200/80">
-        💳 A 30% security deposit of{" "}
-        <strong>KES {Math.ceil(quote.sellRate * 0.3).toLocaleString()}</strong>{" "}
-        will be held and released upon return.
+        💳 Full payment of{" "}
+        <strong>KES {quote.sellRate.toLocaleString()}</strong>{" "}
+        is required upon booking confirmation.
       </div>
     </div>
   );
