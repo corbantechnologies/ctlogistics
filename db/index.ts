@@ -6,11 +6,20 @@ import * as schema from "./schema";
 config({ path: ".env.local" });
 config({ path: ".env" });
 
-// Railway PostgreSQL — connection string from DATABASE_URL env var.
-// In serverless environments (Vercel), postgres-js handles connection pooling automatically.
-const client = postgres(process.env.DATABASE_URL!, {
-  max: 1, // Vercel serverless: keep a single connection per lambda invocation
-  ssl: process.env.NODE_ENV === "production" ? "require" : false,
+const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL || "";
+
+if (!connectionString) {
+  console.warn("⚠️ Warning: DATABASE_URL is not set in environment variables.");
+}
+
+// Railway / Vercel PostgreSQL connection configuration
+// - max: 1 connection per serverless lambda invocation
+// - ssl: rejectUnauthorized: false prevents self-signed SSL handshake failures in production cloud DBs
+const client = postgres(connectionString, {
+  max: 1,
+  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
+  idle_timeout: 20,
+  connect_timeout: 10,
 });
 
 export const db = drizzle(client, { schema });
