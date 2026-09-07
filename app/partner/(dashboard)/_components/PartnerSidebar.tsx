@@ -5,8 +5,9 @@ import { usePathname } from "next/navigation";
 import { logOut } from "@/app/actions/auth";
 
 const NAV_ITEMS = [
-  { href: "/partner/dashboard", icon: "📊", label: "My Jobs" },
-  { href: "/partner/fleet", icon: "🚐", label: "My Fleet" },
+  { href: "/partner/dashboard", icon: "📊", label: "Assigned Trips" },
+  { href: "/partner/jobs", icon: "🌐", label: "Job Marketplace" },
+  { href: "/partner/fleet", icon: "🚐", label: "My Fleet & Services" },
   { href: "/partner/drivers", icon: "🧑‍✈️", label: "My Drivers" },
 ];
 

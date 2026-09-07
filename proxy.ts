@@ -14,7 +14,7 @@ const PUBLIC_ROUTES = [
   "/terms"
 ];
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Allow static files and API routes (except maybe some guarded API routes in the future)

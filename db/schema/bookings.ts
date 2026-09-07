@@ -1,4 +1,4 @@
-﻿import {
+import {
   pgTable,
   uuid,
   varchar,
@@ -25,8 +25,12 @@ export const bookings = pgTable("bookings", {
   totalSellAmount: numeric("total_sell_amount", { precision: 12, scale: 2 }).notNull(),
   totalBuyAmount: numeric("total_buy_amount", { precision: 12, scale: 2 }).notNull(),
   securityDeposit: numeric("security_deposit", { precision: 12, scale: 2 }).default("0").notNull(),
+  depositPercentage: integer("deposit_percentage").default(30).notNull(),
   isDepositPaid: boolean("is_deposit_paid").default(false).notNull(),
   isFullPaymentReceived: boolean("is_full_payment_received").default(false).notNull(),
+  paymentStatus: varchar("payment_status", { length: 50 }).default("UNPAID").notNull(), // UNPAID, DEPOSIT_PAID, PAID_FULL
+  mpesaCheckoutRequestId: varchar("mpesa_checkout_request_id", { length: 100 }),
+  mpesaReceiptNumber: varchar("mpesa_receipt_number", { length: 100 }),
   rentalStart: timestamp("rental_start"),
   rentalEnd: timestamp("rental_end"),
   deliveryAddress: text("delivery_address"),

@@ -1,4 +1,4 @@
-﻿import {
+import {
   pgTable,
   uuid,
   integer,
@@ -20,6 +20,7 @@ export const tripLegs = pgTable("trip_legs", {
     .references(() => bookings.id, { onDelete: "cascade" })
     .notNull(),
   legSequence: integer("leg_sequence").notNull(),
+  dayNumber: integer("day_number").default(1).notNull(),
   originLocation: text("origin_location").notNull(),
   destinationLocation: text("destination_location").notNull(),
   scheduledTime: timestamp("scheduled_time").notNull(),

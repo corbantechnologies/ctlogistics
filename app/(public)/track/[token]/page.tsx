@@ -1,4 +1,4 @@
-﻿import { notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { db } from "@/db";
 import { bookings, tripLegs, assets, drivers } from "@/db/schema";
@@ -103,6 +103,16 @@ export default async function TrackPage({ params }: Props) {
               <p className={`text-xs mt-0.5 ${booking.isFullPaymentReceived ? "text-green-400" : "text-amber-400"}`}>
                 {booking.isFullPaymentReceived ? "✓ Paid in full" : booking.isDepositPaid ? "Deposit paid" : "Payment pending"}
               </p>
+              {(booking.isDepositPaid || booking.isFullPaymentReceived) && (
+                <a
+                  href={`/api/documents/${booking.id}/receipt?token=${booking.accessToken}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-amber-400 hover:text-amber-300 font-semibold mt-1.5 transition-colors"
+                >
+                  📄 Download PDF Receipt
+                </a>
+              )}
             </div>
           </div>
         </div>
