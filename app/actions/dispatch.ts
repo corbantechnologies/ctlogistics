@@ -125,3 +125,59 @@ export async function recordPayment(formData: FormData) {
   revalidatePath("/admin/dispatch");
   return { success: true };
 }
+
+export async function addSafariLeg(data: {
+  bookingId: string;
+  dayNumber: number;
+  originLocation: string;
+  destinationLocation: string;
+  scheduledTime: Date;
+  parkEntryGate?: string;
+  lodgeDropPoint?: string;
+  driverDailyAllowance?: number;
+  notes?: string;
+}) {
+  const session = await auth();
+  if (!session) return { error: "Unauthorized" };
+
+  try {
+    const existingLegs = await db.query.tripLegs.findMany({
+      where: eq(tripLegs.bookingId, data.bookingId),
+    });
+
+    const nextSeq = existingLegs.length + 1;
+
+    const [newLeg] = await db.insert(tripLegs).values({
+      bookingId: data.bookingId,
+      legSequence: nextSeq,
+      dayNumber: data.dayNumber || 1,
+      originLocation: data.originLocation,
+      destinationLocation: data.destinationLocation,
+      scheduledTime: data.scheduledTime,
+      parkEntryGate: data.parkEntryGate || null,
+      lodgeDropPoint: data.lodgeDropPoint || null,
+      driverDailyAllowance: data.driverDailyAllowance ? String(data.driverDailyAllowance) : null,
+      notes: data.notes || null,
+      status: "SCHEDULED",
+    }).returning();
+
+    revalidatePath(`/admin/dispatch`);
+    return { success: true, leg: newLeg };
+  } catch (error: any) {
+    console.error("Error adding safari leg:", error);
+    return { error: error.message || "Failed to add safari leg" };
+  }
+}
+
+export async function removeSafariLeg(legId: string) {
+  const session = await auth();
+  if (!session) return { error: "Unauthorized" };
+
+  try {
+    await db.delete(tripLegs).where(eq(tripLegs.id, legId));
+    revalidatePath(`/admin/dispatch`);
+    return { success: true };
+  } catch (error: any) {
+    return { error: error.message || "Failed to remove safari leg" };
+  }
+}
