@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/next"
 
 const googleSans = localFont({
   src: [
@@ -49,7 +50,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${googleSans.variable} font-sans antialiased`}>
         {children}
-        <Toaster 
+        <Toaster
           position="bottom-right"
           toastOptions={{
             style: {
@@ -65,6 +66,7 @@ export default function RootLayout({
             }
           }}
         />
+        <Analytics />
       </body>
     </html>
   );
