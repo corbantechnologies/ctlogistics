@@ -24,9 +24,22 @@ const createPartnerUserSchema = z.object({
 
 // ── Create admin or dispatcher account ───────────────────────────────────────
 export async function createAdminUser(formData: FormData) {
-  const existingAdmin = await db.query.users.findFirst({
-    where: eq(users.role, "ADMIN"),
-  });
+  let existingAdmin = null;
+
+  try {
+    existingAdmin = await db.query.users.findFirst({
+      where: eq(users.role, "ADMIN"),
+    });
+  } catch (err) {
+    console.warn("Database tables missing during createAdminUser. Auto-syncing...", err);
+    try {
+      const { syncDatabaseSchema } = await import("@/db/sync");
+      await syncDatabaseSchema();
+    } catch (syncErr) {
+      console.error("Auto-sync error during admin creation:", syncErr);
+    }
+  }
+
   const isFirstSetup = !existingAdmin;
 
   if (!isFirstSetup) {

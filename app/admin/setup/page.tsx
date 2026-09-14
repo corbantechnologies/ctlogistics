@@ -21,8 +21,16 @@ export default async function SetupPage() {
       where: eq(users.role, "ADMIN"),
     });
   } catch (error) {
-    console.error("Error checking existing admin setup:", error);
-    // If DB is empty or unreachable during setup, allow admin creation form to render
+    console.warn("Database tables missing during setup. Auto-initializing schema...", error);
+    try {
+      const { syncDatabaseSchema } = await import("@/db/sync");
+      await syncDatabaseSchema();
+      existing = await db.query.users.findFirst({
+        where: eq(users.role, "ADMIN"),
+      });
+    } catch (syncErr) {
+      console.error("Error during auto-sync:", syncErr);
+    }
   }
 
   if (existing) {

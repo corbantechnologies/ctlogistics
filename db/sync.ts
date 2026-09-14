@@ -4,19 +4,19 @@ import { config } from "dotenv";
 config({ path: ".env.local" });
 config({ path: ".env" });
 
-const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+export async function syncDatabaseSchema() {
+  const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
 
-if (!connectionString) {
-  console.error("❌ ERROR: DATABASE_URL environment variable is missing.");
-  process.exit(1);
-}
+  if (!connectionString) {
+    console.error("❌ ERROR: DATABASE_URL environment variable is missing.");
+    return { error: "DATABASE_URL is missing" };
+  }
 
-const sql = postgres(connectionString, {
-  max: 1,
-  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
-});
+  const sql = postgres(connectionString, {
+    max: 1,
+    ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
+  });
 
-async function main() {
   console.log("⚡ Syncing database schema to PostgreSQL...");
 
   try {
@@ -263,12 +263,16 @@ async function main() {
     `;
 
     console.log("✅ All PostgreSQL database tables created and verified successfully!");
-  } catch (error) {
+    return { success: true };
+  } catch (error: any) {
     console.error("❌ Failed to sync database schema:", error);
-    process.exit(1);
+    return { error: error.message || "Failed to sync database schema" };
   } finally {
     await sql.end();
   }
 }
 
-main();
+// Allow direct execution from CLI (node / tsx db/sync.ts)
+if (require.main === module) {
+  syncDatabaseSchema().then(() => process.exit(0)).catch(() => process.exit(1));
+}
