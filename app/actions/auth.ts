@@ -50,11 +50,11 @@ export async function authenticate(formData: FormData) {
     finalRedirect = user.role === "PARTNER" ? "/partner" : "/admin";
   }
 
-  redirect(finalRedirect);
+  return { success: true, redirectTo: finalRedirect };
 }
 
 export async function logOut() {
-  await signOut({ redirect: true, redirectTo: "/admin/login" });
+  await signOut({ redirect: true, redirectTo: "/auth/login" });
 }
 
 export async function getSession() {

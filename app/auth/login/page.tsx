@@ -26,12 +26,14 @@ function LoginForm() {
         toast.error(result.error);
         setError(result.error);
         setIsLoading(false);
+      } else if (result?.success && result?.redirectTo) {
+        toast.success("Signing in...");
+        window.location.href = result.redirectTo;
       }
-      // If successful, the action will throw a redirect which is handled by Next.js
     } catch (err: any) {
-      if (err.message === "NEXT_REDIRECT") throw err;
-      toast.error("An unexpected error occurred");
-      setError(err.message || "Failed to log in");
+      console.error("Login exception:", err);
+      toast.error("An unexpected error occurred during sign in.");
+      setError(err?.message || "Failed to log in");
       setIsLoading(false);
     }
   };

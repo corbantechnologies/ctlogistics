@@ -4,7 +4,7 @@ import { AdminSidebar } from "./_components/AdminSidebar";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
-  if (!session) redirect("/auth/login");
+  if (!session) redirect("/auth/login?next=/admin");
 
   return (
     <div className="flex h-dvh overflow-hidden">
