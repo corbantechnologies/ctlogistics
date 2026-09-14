@@ -4,9 +4,10 @@
     "private": true,
     "scripts": {
         "dev": "next dev --turbopack",
-        "build": "next build",
+        "build": "npm run db:sync && next build",
         "start": "next start",
         "lint": "next lint",
+        "db:sync": "tsx db/sync.ts",
         "db:generate": "drizzle-kit generate",
         "db:migrate": "drizzle-kit migrate",
         "db:seed": "tsx db/seed.ts",
