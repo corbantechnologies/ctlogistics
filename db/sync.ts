@@ -272,7 +272,7 @@ export async function syncDatabaseSchema() {
   }
 }
 
-// Allow direct execution from CLI (node / tsx db/sync.ts)
-if (require.main === module) {
+// Allow direct execution from CLI safely without ReferenceError in Webpack / Next.js
+if (typeof require !== "undefined" && typeof module !== "undefined" && require.main === module) {
   syncDatabaseSchema().then(() => process.exit(0)).catch(() => process.exit(1));
 }
